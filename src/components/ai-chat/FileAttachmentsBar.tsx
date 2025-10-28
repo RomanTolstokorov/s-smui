@@ -53,7 +53,7 @@ export const FileAttachmentsBar: React.FC<FileAttachmentsBarProps> = ({
                 }}
             >
                 {files.map((file) => (
-                    <Box key={file.id} sx={{ flexShrink: 0 }}>
+                    <Box key={file.id}>
                         <FileAttachment
                             fileName={file.fileName}
                             mimeType={file.mimeType}

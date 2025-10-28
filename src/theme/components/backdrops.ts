@@ -4,7 +4,7 @@ export const backdropsOverrides = {
 MuiBackdrop: {
       styleOverrides: {
         root: ({ theme }: { theme: any }) => ({
-          backgroundColor: theme.vars.palette.components.backdrop.default,
+        //   backgroundColor: theme.vars.palette.components.backdrop.default,
         //   backdropFilter: 'blur(1px)',
         }),
       },

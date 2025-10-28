@@ -365,31 +365,21 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                             />
                         </Box>
                     ) : filterDef?.valueType === 'boolean' ? (
-                        <Box
-                            sx={{
-                                flex: 1.6,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                px: 2,
-                                py: 1,
+                        <FilterSelect
+
+                            value={typeof filter.value === 'boolean' ? (filter.value ? 'true' : 'false') : 'false'}
+                            onChange={(e) => {
+                                onChange({
+                                    ...filter,
+                                    value: e.target.value === 'true',
+                                });
                             }}
+                            disabled={!filter.enabled || !isLinkedEnabled}
+                            sx={{ flex: 1.6 }}
                         >
-                            <FilterSelect
-                                value={typeof filter.value === 'boolean' ? (filter.value ? 'true' : 'false') : 'false'}
-                                onChange={(e) => {
-                                    onChange({
-                                        ...filter,
-                                        value: e.target.value === 'true',
-                                    });
-                                }}
-                                disabled={!filter.enabled || !isLinkedEnabled}
-                                sx={{ flex: 1 }}
-                            >
-                                <MenuItem value="true">True</MenuItem>
-                                <MenuItem value="false">False</MenuItem>
-                            </FilterSelect>
-                        </Box>
+                            <MenuItem value="true">True</MenuItem>
+                            <MenuItem value="false">False</MenuItem>
+                        </FilterSelect>
                     ) : filterDef?.valueType === 'date-range' ? (
                         <DateRangeInput
                             value={
