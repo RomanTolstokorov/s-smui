@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import {
     Box,
-    Chip,
     IconButton,
     MenuItem,
     TextField,
-    Checkbox,
     ListItemText,
     ListItemIcon,
     Paper,
@@ -23,7 +21,6 @@ import { FilterSelect } from './FilterSelect';
 import { FilterAutocompleteV2 } from './FilterAutocompleteV2';
 import { MultiTextInput } from './MultiTextInput';
 import { DateRangeInput } from './DateRangeInput';
-import { MultiValueLogicSelector } from './MultiValueLogicSelector';
 import { getOperatorIcon } from './operatorIcons';
 
 interface FilterInputProps {
@@ -214,7 +211,7 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                     sx={{
                         display: 'flex',
                         alignItems: 'stretch',
-                        height: 44,
+                        height: 40,
                     }}
                 >
                     {/* Operator Section */}
@@ -400,77 +397,22 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                                 });
                             }}
                         />
-                    ) : filterDef?.valueType === 'single-select' || filterDef?.valueType === 'multi-select' ? (
+                    ) : filterDef?.valueType === 'single-select' ? (
                         <FilterSelect
-                            multiple={filterDef.valueType === 'multi-select'}
-                            value={filterDef.valueType === 'multi-select'
-                                ? (Array.isArray(filter.value) ? filter.value : [])
-                                : (filter.value as string)
-                            }
+                            value={filter.value as string}
                             onChange={(e) => {
-                                const value = e.target.value;
-                                if (filterDef.valueType === 'multi-select') {
-                                    const newValue = typeof value === 'string' ? value.split(',') : value;
-                                    onChange({
-                                        ...filter,
-                                        value: newValue as string[],
-                                    });
-                                } else {
-                                    onChange({
-                                        ...filter,
-                                        value: value as string,
-                                    });
-                                }
+                                onChange({
+                                    ...filter,
+                                    value: e.target.value as string,
+                                });
                             }}
                             disabled={!filter.enabled || !isLinkedEnabled}
                             displayEmpty
                             renderValue={(selected) => {
-                                const isMulti = filterDef.valueType === 'multi-select';
-                                const values = isMulti ? (Array.isArray(selected) ? selected : []) : [];
-                                const isEmpty = isMulti ? values.length === 0 : !selected;
+                                const isEmpty = !selected;
 
                                 if (isEmpty) {
                                     return <Typography variant="body1" color='text.disabled'>Select...</Typography>;
-                                }
-
-                                if (isMulti) {
-                                    const firstOption = filterDef?.options?.find(opt => opt.id === values[0]);
-                                    return (
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1, overflow: 'hidden' }}>
-                                            <Typography
-                                                variant="body1"
-                                                sx={{
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis',
-                                                    whiteSpace: 'nowrap',
-                                                    flex: 1
-                                                }}
-                                            >
-                                                {firstOption?.label}
-                                            </Typography>
-                                            {values.length >= 2 && (
-                                                <>
-                                                    <Chip
-                                                        label={(filter.valueLogicOperator || 'AND').toUpperCase()}
-                                                        size="small"
-                                                        variant="outlined"
-                                                        sx={{
-                                                            height: 24,
-                                                            fontSize: '0.75rem',
-                                                        }}
-                                                    />
-                                                    <Chip
-                                                        label={`+${values.length - 1}`}
-                                                        size="small"
-                                                        sx={{
-                                                            height: 20,
-                                                            fontSize: '0.75rem',
-                                                        }}
-                                                    />
-                                                </>
-                                            )}
-                                        </Box>
-                                    );
                                 }
 
                                 const option = filterDef?.options?.find(opt => opt.id === selected);
@@ -488,53 +430,44 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                                 );
                             }}
                             sx={{ flex: 1.6 }}
-                            // Add custom MenuProps to include AND/OR selector
-                            MenuProps={{
-                                PaperProps: {
-                                    children: filterDef.valueType === 'multi-select' &&
-                                        Array.isArray(filter.value) &&
-                                        filter.value.length >= 2 ? (
-                                        <>
-                                            <Box sx={{
-                                                borderBottom: '1px solid',
-                                                borderColor: 'divider',
-                                                py: 1,
-                                            }}>
-                                                <MultiValueLogicSelector
-                                                    value={filter.valueLogicOperator || 'and'}
-                                                    onChange={(operator: import('./types').ValueLogicOperator) => {
-                                                        onChange({
-                                                            ...filter,
-                                                            valueLogicOperator: operator,
-                                                        });
-                                                    }}
-                                                />
-                                            </Box>
-                                        </>
-                                    ) : null,
-                                },
-                            }}
                         >
-                            {filterDef?.options?.map((option) => {
-                                if (filterDef.valueType === 'multi-select') {
-                                    const values = Array.isArray(filter.value) ? filter.value : [];
-                                    const isChecked = values.includes(option.id);
-
-                                    return (
-                                        <MenuItem key={option.id} value={option.id}>
-                                            <Checkbox checked={isChecked} />
-                                            <ListItemText primary={option.label} />
-                                        </MenuItem>
-                                    );
-                                } else {
-                                    return (
-                                        <MenuItem key={option.id} value={option.id}>
-                                            {option.label}
-                                        </MenuItem>
-                                    );
-                                }
-                            })}
+                            {filterDef?.options?.map((option) => (
+                                <MenuItem key={option.id} value={option.id}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
                         </FilterSelect>
+                    ) : filterDef?.valueType === 'multi-select' ? (
+                        <FilterAutocompleteV2
+                            multiple
+                            disableCloseOnSelect
+                            value={filterDef.options?.filter(opt =>
+                                Array.isArray(filter.value) && filter.value.includes(opt.id)
+                            ) || []}
+                            onChange={(_, newValue) => {
+                                const selectedIds = Array.isArray(newValue)
+                                    ? newValue.map((opt: any) => opt.id)
+                                    : [];
+                                onChange({
+                                    ...filter,
+                                    value: selectedIds,
+                                });
+                            }}
+                            options={filterDef.options || []}
+                            getOptionLabel={(option: any) => option.label}
+                            disabled={!filter.enabled || !isLinkedEnabled}
+                            placeholder="Select..."
+                            limitTags={1}
+                            showLogicSelector={true}
+                            logicOperator={filter.valueLogicOperator || 'and'}
+                            onLogicOperatorChange={(operator) => {
+                                onChange({
+                                    ...filter,
+                                    valueLogicOperator: operator,
+                                });
+                            }}
+                            sx={{ flex: 1.6 }}
+                        />
                     ) : null}
                 </Box>
             </Paper>

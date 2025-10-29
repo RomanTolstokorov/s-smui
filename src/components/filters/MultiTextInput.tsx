@@ -39,7 +39,7 @@ const CollapsedDisplay = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     gap: theme.spacing(1),
     padding: theme.spacing(0, 2),
-    minHeight: 44,
+    minHeight: 40,
     cursor: 'text',
     '&:hover': {
         backgroundColor: theme.palette.action.hover,
@@ -216,7 +216,7 @@ export const MultiTextInput: React.FC<MultiTextInputProps> = ({
                     display: 'flex',
                     alignItems: 'center',
                     px: 2,
-                    minHeight: 44,
+                    minHeight: 40,
                     '&:hover': !disabled ? {
                         bgcolor: 'action.hover',
                     } : {},
