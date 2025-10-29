@@ -30,11 +30,18 @@ export function useTextareaIsMultiline<T extends HTMLTextAreaElement>(
         return;
       }
 
-      const { scrollHeight } = el;
+      const { scrollHeight, clientHeight } = el;
 
       // Capture baseline height when single-line
+      // If baseline is not set, we need to establish it
       if (baseHeightRef.current == null) {
-        baseHeightRef.current = scrollHeight;
+        // If content is already overflowing on first measurement (e.g., after paste),
+        // use clientHeight as baseline instead of scrollHeight
+        if (scrollHeight > clientHeight + threshold) {
+          baseHeightRef.current = clientHeight;
+        } else {
+          baseHeightRef.current = scrollHeight;
+        }
       }
 
       const baseHeight = baseHeightRef.current;
@@ -73,15 +80,16 @@ export function useTextareaIsMultiline<T extends HTMLTextAreaElement>(
     };
 
     // Immediate measure for paste events to keep layout in sync
+    // Using setTimeout(0) after RAF to ensure paste content is in DOM
     const measureAfterFrame = () => {
       if (rafRef.current != null) {
         cancelAnimationFrame(rafRef.current);
       }
       rafRef.current = requestAnimationFrame(() => {
-        rafRef.current = requestAnimationFrame(() => {
+        setTimeout(() => {
           measure();
           rafRef.current = null;
-        });
+        }, 0);
       });
     };
 

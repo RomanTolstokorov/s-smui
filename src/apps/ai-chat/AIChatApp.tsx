@@ -77,6 +77,15 @@ export const AIChatApp: React.FC = () => {
                         onSend={handleSend}
                         suggestions={suggestions}
                     />
+
+                    <Box sx={{ height: 40 }} />
+
+                    <AIChatPromptInput
+                        value={message}
+                        onChange={setMessage}
+                        onSend={handleSend}
+                    // suggestions={suggestions}
+                    />
                 </Box>
             </Box>
 
