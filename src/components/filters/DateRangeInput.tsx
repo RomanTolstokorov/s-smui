@@ -30,7 +30,7 @@ const DateDisplay = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     gap: theme.spacing(2),
     padding: theme.spacing(0, 2),
-    minHeight: 44,
+    minHeight: 40,
     cursor: 'pointer',
     '&:hover': {
         backgroundColor: theme.palette.action.hover,

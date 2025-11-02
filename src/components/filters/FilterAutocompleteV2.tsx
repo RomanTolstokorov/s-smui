@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled, Autocomplete, InputBase, Chip, Box, Checkbox } from '@mui/material';
+import { styled, Autocomplete, InputBase, Chip, Box, Checkbox, Tooltip } from '@mui/material';
 import type { AutocompleteProps, AutocompleteRenderInputParams } from '@mui/material';
 import { CaretDownIcon, XIcon } from '@phosphor-icons/react';
 import { MultiValueLogicSelector } from './MultiValueLogicSelector';
@@ -136,11 +136,29 @@ export const FilterAutocompleteV2 = <
                         );
                     })}
                     {hiddenCount > 0 && (
-                        <LimitChip
-                            label={`+${hiddenCount}`}
-                            size="small"
-                            disabled={props.disabled}
-                        />
+                        <Tooltip
+                            title={
+                                <Box>
+                                    {values.slice(limit).map((option, index) => {
+                                        const label = props.getOptionLabel
+                                            ? props.getOptionLabel(option)
+                                            : String(option);
+                                        return (
+                                            <Box key={index} sx={{ py: 1 }}>
+                                                {label}
+                                            </Box>
+                                        );
+                                    })}
+                                </Box>
+                            }
+                            placement='left'
+                        >
+                            <LimitChip
+                                label={`+${hiddenCount}`}
+                                size="small"
+                                disabled={props.disabled}
+                            />
+                        </Tooltip>
                     )}
                 </>
             );
@@ -206,7 +224,11 @@ export const FilterAutocompleteV2 = <
             popupIcon={<CaretDownIcon />}
             clearIcon={<XIcon />}
             renderInput={renderInput}
-            ListboxComponent={showLogicSelector ? CustomListbox as any : undefined}
+            slotProps={{
+                listbox: showLogicSelector ? {
+                    component: CustomListbox as any,
+                } : undefined,
+            }}
             renderOption={props.multiple ? (renderProps, option, state) => {
                 const { key, ...optionProps } = renderProps as any;
                 return (

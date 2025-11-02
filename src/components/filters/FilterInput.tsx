@@ -174,6 +174,9 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                     '&:hover': {
                         borderColor: 'primary.light',
                     },
+                    '&:focus-within': {
+                        borderColor: 'primary.main',
+                    },
                 }}
             >
                 {/* Filter Name Row */}
