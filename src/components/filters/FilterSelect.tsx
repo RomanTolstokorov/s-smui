@@ -36,7 +36,7 @@ export type Part<T = {}> = {
 
 type FilterSelectVariants = 'borderless';
 
-type FilterSelectV2Props<O extends OptionType> = {
+type FilterSelectProps<O extends OptionType> = {
     id?: string;
     value: O | null;
     options: O[];
@@ -127,7 +127,7 @@ export const FilterSelect = <O extends OptionType>({
     slots,
     sx,
     ...attributes
-}: FilterSelectV2Props<O>): React.ReactElement | null => {
+}: FilterSelectProps<O>): React.ReactElement | null => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>('');
     const [isInputHovered, setIsInputHovered] = useState<boolean>(false);
