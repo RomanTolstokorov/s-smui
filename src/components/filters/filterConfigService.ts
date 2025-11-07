@@ -7,8 +7,8 @@ const filterDefinitions: FilterDefinition[] = [
         name: 'Country',
         valueType: 'single-select',
         operators: [
-            { id: 'equals', label: 'Is' },
-            { id: 'not-equals', label: 'Is not' },
+            { value: 'equals', label: 'Is' },
+            { value: 'not-equals', label: 'Is not' },
         ],
         options: [
             { id: 'uae', label: 'UAE' },
@@ -31,8 +31,8 @@ const filterDefinitions: FilterDefinition[] = [
         name: 'Sub-Country',
         valueType: 'multi-select',
         operators: [
-            { id: 'equals', label: 'Equals' },
-            { id: 'not-equals', label: 'Not Equals' },
+            { value: 'equals', label: 'Equals' },
+            { value: 'not-equals', label: 'Not Equals' },
         ],
         options: [
             // UAE
@@ -62,8 +62,8 @@ const filterDefinitions: FilterDefinition[] = [
         name: 'Nationality',
         valueType: 'multi-select',
         operators: [
-            { id: 'equals', label: 'Equals' },
-            { id: 'not-equals', label: 'Not Equals' },
+            { value: 'equals', label: 'Equals' },
+            { value: 'not-equals', label: 'Not Equals' },
         ],
         options: [
             { id: 'us', label: 'United States' },
@@ -81,12 +81,12 @@ const filterDefinitions: FilterDefinition[] = [
         name: 'Name',
         valueType: 'multi-text',
         operators: [
-            { id: 'contains', label: 'Contains' },
-            { id: 'not-contains', label: 'Not contains' },
-            { id: 'equals', label: 'Equals' },
-            { id: 'not-equals', label: 'Not equals' },
-            { id: 'starts-with', label: 'Starts with' },
-            { id: 'ends-with', label: 'Ends with' },
+            { value: 'contains', label: 'Contains' },
+            { value: 'not-contains', label: 'Not contains' },
+            { value: 'equals', label: 'Equals' },
+            { value: 'not-equals', label: 'Not equals' },
+            { value: 'starts-with', label: 'Starts with' },
+            { value: 'ends-with', label: 'Ends with' },
         ],
         placeholder: 'Enter name...',
     },
@@ -95,10 +95,10 @@ const filterDefinitions: FilterDefinition[] = [
         name: 'Email',
         valueType: 'text',
         operators: [
-            { id: 'contains', label: 'Contains' },
-            { id: 'not-contains', label: 'Not contains' },
-            { id: 'equals', label: 'Equals' },
-            { id: 'not-equals', label: 'Not equals' },
+            { value: 'contains', label: 'Contains' },
+            { value: 'not-contains', label: 'Not contains' },
+            { value: 'equals', label: 'Equals' },
+            { value: 'not-equals', label: 'Not equals' },
         ],
         placeholder: 'Enter email...',
     },
@@ -107,8 +107,8 @@ const filterDefinitions: FilterDefinition[] = [
         name: 'Status',
         valueType: 'multi-select',
         operators: [
-            { id: 'equals', label: 'Equals' },
-            { id: 'not-equals', label: 'Not Equals' },
+            { value: 'equals', label: 'Equals' },
+            { value: 'not-equals', label: 'Not Equals' },
         ],
         options: [
             { id: 'active', label: 'Active' },
@@ -122,10 +122,10 @@ const filterDefinitions: FilterDefinition[] = [
         name: 'Age',
         valueType: 'numeric',
         operators: [
-            { id: 'equals', label: 'Equals' },
-            { id: 'not-equals', label: 'Not equals' },
-            { id: 'greater-than', label: 'Greater than' },
-            { id: 'less-than', label: 'Less than' },
+            { value: 'equals', label: 'Equals' },
+            { value: 'not-equals', label: 'Not equals' },
+            { value: 'greater-than', label: 'Greater than' },
+            { value: 'less-than', label: 'Less than' },
         ],
         placeholder: 'Enter age...',
         min: 0,
@@ -137,9 +137,9 @@ const filterDefinitions: FilterDefinition[] = [
         name: 'Salary',
         valueType: 'numeric',
         operators: [
-            { id: 'equals', label: 'Equals' },
-            { id: 'greater-than', label: 'Greater than' },
-            { id: 'less-than', label: 'Less than' },
+            { value: 'equals', label: 'Equals' },
+            { value: 'greater-than', label: 'Greater than' },
+            { value: 'less-than', label: 'Less than' },
         ],
         placeholder: 'Enter salary...',
         min: 0,
@@ -150,7 +150,7 @@ const filterDefinitions: FilterDefinition[] = [
         name: 'Is Verified',
         valueType: 'boolean',
         operators: [
-            { id: 'equals', label: 'Is' },
+            { value: 'equals', label: 'Is' },
         ],
     },
     {
@@ -158,7 +158,7 @@ const filterDefinitions: FilterDefinition[] = [
         name: 'Is Active',
         valueType: 'boolean',
         operators: [
-            { id: 'equals', label: 'Is' },
+            { value: 'equals', label: 'Is' },
         ],
     },
     {
@@ -166,7 +166,7 @@ const filterDefinitions: FilterDefinition[] = [
         name: 'Registration Date',
         valueType: 'date-range',
         operators: [
-            { id: 'between', label: 'Between' },
+            { value: 'between', label: 'Between' },
         ],
         placeholder: 'Select date range',
     },
@@ -175,7 +175,7 @@ const filterDefinitions: FilterDefinition[] = [
         name: 'Last Login',
         valueType: 'date-range',
         operators: [
-            { id: 'between', label: 'Between' },
+            { value: 'between', label: 'Between' },
         ],
         placeholder: 'Select date range',
     },
@@ -184,8 +184,8 @@ const filterDefinitions: FilterDefinition[] = [
         name: 'Category',
         valueType: 'multi-select',
         operators: [
-            { id: 'equals', label: 'Equals' },
-            { id: 'not-equals', label: 'Not Equals' },
+            { value: 'equals', label: 'Equals' },
+            { value: 'not-equals', label: 'Not Equals' },
         ],
         options: [
             { id: 'electronics', label: 'Electronics' },

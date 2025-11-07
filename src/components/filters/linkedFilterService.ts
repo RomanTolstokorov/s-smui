@@ -19,7 +19,7 @@ export const createLinkedFilterOperations = (): LinkedFilterOperations => {
     return {
       id: `filter-${Date.now()}-linked`,
       filterId: linkedFilterDef.id,
-      operator: linkedDefaultOperator.id,
+      operator: linkedDefaultOperator.value,
       value: linkedFilterDef.valueType === 'multi-select' ? [] : '',
       enabled: false, // Start disabled until primary has value
     };

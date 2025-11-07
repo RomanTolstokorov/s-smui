@@ -21,7 +21,7 @@ export type OperatorType =
     | 'between';
 
 export interface OperatorConfig {
-    id: OperatorType;
+    value: OperatorType;
     label: string;
 }
 

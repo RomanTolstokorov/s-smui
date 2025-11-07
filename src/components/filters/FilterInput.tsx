@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, type ReactNode } from 'react';
 import {
     Box,
     IconButton,
@@ -9,15 +9,14 @@ import {
     Paper,
     Tooltip,
     Typography,
-    Icon,
 } from '@mui/material';
 import {
     TrashIcon,
     EyeSlashIcon
 } from '@phosphor-icons/react';
-import type { ActiveFilter, FilterDefinition, DateRangeValue } from './types';
+import type { ActiveFilter, FilterDefinition, DateRangeValue, OperatorType } from './types';
 import { getFilterDefinition } from './filterConfigService';
-import { FilterSelect } from './FilterSelect';
+import { FilterSelect, type OptionType } from './FilterSelect';
 import { FilterAutocompleteV2 } from './FilterAutocompleteV2';
 import { MultiTextInput } from './MultiTextInput';
 import { DateRangeInput } from './DateRangeInput';
@@ -33,6 +32,12 @@ interface FilterInputProps {
     isLinked?: boolean;
     isLinkedEnabled?: boolean;
 }
+
+type OperatorOption = {
+    value: OperatorType;
+    label: string;
+    icon?: ReactNode;
+};
 
 export const FilterInput: React.FC<FilterInputProps> = ({
     filter,
@@ -50,9 +55,41 @@ export const FilterInput: React.FC<FilterInputProps> = ({
 
     const filterDef = filter.filterId ? getFilterDefinition(filter.filterId) : null;
     const isEmptyFilter = !filter.filterId;
-    const currentOperator = filterDef?.operators.find(op => op.id === filter.operator);
+    const isOperatorDisabled = !filter.enabled || !isLinkedEnabled || isEmptyFilter;
 
-    // Handle mouse leave with check for active Select menu
+    // Get available operator options for the dropdown
+    const operatorOptions: OperatorOption[] = React.useMemo(() => {
+        if (!filterDef) return [];
+        return filterDef.operators.map(op => ({
+            value: op.value,
+            label: op.label,
+            icon: getOperatorIcon(op.value, false)
+        }));
+    }, [filterDef]);
+
+    // Determine which operator value to use (without icon rendering logic)
+    const selectedOperator: OperatorOption | null = React.useMemo(() => {
+        // Case 1: No filter type selected - show default operator (equal)
+        if (isEmptyFilter) {
+            return {
+                value: 'equals' as OperatorType,
+                label: 'Equals'
+            };
+        }
+
+        // Case 2: Filter type selected
+        if (filterDef) {
+            const operatorValue = filter.operator || filterDef.operators[0].value;
+            const operatorLabel = filterDef.operators.find(op => op.value === operatorValue)?.label || '';
+
+            return {
+                value: operatorValue,
+                label: operatorLabel
+            };
+        }
+
+        return null;
+    }, [filterDef, filter.operator, isEmptyFilter]);    // Handle mouse leave with check for active Select menu
     const handleMouseLeave = () => {
         // Check if any Select menu is open by looking for open MUI menu
         const hasOpenMenu = document.querySelector('.MuiMenu-root');
@@ -104,7 +141,7 @@ export const FilterInput: React.FC<FilterInputProps> = ({
         const updatedFilter: ActiveFilter = {
             ...filter,
             filterId: newFilterDef.id,
-            operator: defaultOperator.id,
+            operator: defaultOperator.value,
             value: defaultValue,
             valueLogicOperator: (newFilterDef.valueType === 'multi-select' || newFilterDef.valueType === 'multi-text')
                 ? 'and'
@@ -117,18 +154,6 @@ export const FilterInput: React.FC<FilterInputProps> = ({
         }
 
         onChange(updatedFilter);
-    };
-
-    // Handle operator change
-    const handleOperatorChange = (event: any) => {
-        const operatorId = event.target.value as string;
-        const operator = filterDef?.operators.find(op => op.id === operatorId);
-        if (!operator) return;
-
-        onChange({
-            ...filter,
-            operator: operator.id,
-        });
     };
 
     // Handle value change
@@ -194,15 +219,40 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                         </Typography>
                     </Box>
                 ) : (
-                    <FilterAutocompleteV2
-                        value={availableFilters.find(f => f.id === filter.filterId) || null}
-                        onChange={(_, newValue) => handleFilterTypeChange(newValue as FilterDefinition | null)}
-                        options={availableFilters}
-                        getOptionLabel={(option) => option.name}
+                    <FilterSelect
+                        value={
+                            availableFilters.find(f => f.id === filter.filterId)
+                                ? {
+                                    value: filter.filterId || '',
+                                    label: availableFilters.find(f => f.id === filter.filterId)?.name || '',
+                                }
+                                : null
+                        }
+                        onChange={(newValue) => {
+                            if (!newValue) {
+                                // Reset filter to empty state when cleared
+                                onChange({
+                                    ...filter,
+                                    filterId: '',
+                                    operator: undefined,
+                                    value: '',
+                                    valueLogicOperator: undefined,
+                                });
+                                return;
+                            }
+                            const filterDef = availableFilters.find(f => f.id === newValue.value);
+                            handleFilterTypeChange(filterDef || null);
+                        }}
+                        options={
+                            availableFilters.map((f) => ({
+                                value: f.id,
+                                label: f.name,
+                            }))
+                        }
                         disabled={!filter.enabled || !isLinkedEnabled}
                         placeholder={isEmptyFilter ? 'Select filter type' : ''}
-                        // autoFocus
-                        autoHighlight
+                        searchable={true}
+                        variant="borderless"
                     />
                 )}
 
@@ -218,41 +268,57 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                     }}
                 >
                     {/* Operator Section */}
-                    <FilterSelect
-                        value={filter.operator || (filterDef?.operators[0]?.id || '')}
-                        onChange={handleOperatorChange}
-                        disabled={!filter.enabled || !isLinkedEnabled || isEmptyFilter}
-                        displayEmpty
-                        sx={{
-                            minWidth: 60,
-                            maxWidth: 80,
-                            flex: '0 0 auto'
+                    <FilterSelect<OperatorOption>
+                        value={selectedOperator}
+                        onChange={(newValue) => {
+                            if (!newValue) return;
+                            onChange({
+                                ...filter,
+                                operator: newValue.value as any,
+                            });
                         }}
-                        renderValue={() => (
-                            <Box sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: isEmptyFilter ? 'action.disabled' : 'inherit'
-                            }}>
-                                <Icon fontSize='medium'>
-                                    {isEmptyFilter
-                                        ? getOperatorIcon('equals', true)
-                                        : getOperatorIcon(currentOperator?.id || filterDef?.operators[0]?.id || 'equals')
-                                    }
-                                </Icon>
-                            </Box>
-                        )}
-                    >
-                        {filterDef?.operators.map((operator) => (
-                            <MenuItem key={operator.id} value={operator.id}>
-                                <ListItemIcon>
-                                    {getOperatorIcon(operator.id, false)}
-                                </ListItemIcon>
-                                <ListItemText primary={operator.label} />
-                            </MenuItem>
-                        ))}
-                    </FilterSelect>
+                        options={operatorOptions}
+                        disabled={isOperatorDisabled}
+                        clearable={false}
+                        variant='borderless'
+                        slots={{
+                            renderValue: (option) => {
+                                // Render responsibility: Determine icon state based on component state
+                                const iconDisabled = isOperatorDisabled;
+                                const operatorIcon = getOperatorIcon(option.value, iconDisabled);
+
+                                return (
+                                    <Box sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}>
+                                        {operatorIcon}
+                                    </Box>
+                                );
+                            },
+                            renderOption: (props, option, renderState) => (
+                                <MenuItem
+                                    {...props}
+                                    key={String(option.value)}
+                                    selected={renderState.selected}
+                                    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                                >
+                                    <ListItemIcon>
+                                        {option.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={option.label} />
+                                </MenuItem>
+                            ),
+                        }}
+                        parts={{
+                            root: { style: { minWidth: 60, maxWidth: 80 } },
+                            popper: {
+                                style: { minWidth: 200 },
+                                placement: 'bottom-end'
+                            }
+                        }}
+                    />
 
                     {/* Vertical Divider */}
                     <Box sx={{ width: '1px', bgcolor: 'divider' }} />
@@ -365,21 +431,25 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                             />
                         </Box>
                     ) : filterDef?.valueType === 'boolean' ? (
-                        <FilterSelect
-
-                            value={typeof filter.value === 'boolean' ? (filter.value ? 'true' : 'false') : 'false'}
-                            onChange={(e) => {
+                        <FilterSelect<OptionType>
+                            value={{
+                                value: typeof filter.value === 'boolean' ? (filter.value ? 'true' : 'false') : 'false',
+                                label: typeof filter.value === 'boolean' ? (filter.value ? 'True' : 'False') : 'False',
+                            }}
+                            onChange={(newValue) => {
                                 onChange({
                                     ...filter,
-                                    value: e.target.value === 'true',
+                                    value: newValue?.value === 'true',
                                 });
                             }}
+                            options={[
+                                { value: 'true', label: 'True' },
+                                { value: 'false', label: 'False' },
+                            ]}
                             disabled={!filter.enabled || !isLinkedEnabled}
+                            clearable={false}
                             sx={{ flex: 1.6 }}
-                        >
-                            <MenuItem value="true">True</MenuItem>
-                            <MenuItem value="false">False</MenuItem>
-                        </FilterSelect>
+                        />
                     ) : filterDef?.valueType === 'date-range' ? (
                         <DateRangeInput
                             value={
@@ -401,45 +471,32 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                             }}
                         />
                     ) : filterDef?.valueType === 'single-select' ? (
-                        <FilterSelect
-                            value={filter.value as string}
-                            onChange={(e) => {
+                        <FilterSelect<OptionType>
+                            value={
+                                filterDef?.options?.find(opt => opt.id === filter.value)
+                                    ? {
+                                        value: filter.value as string,
+                                        label: filterDef.options.find(opt => opt.id === filter.value)?.label || '',
+                                    }
+                                    : null
+                            }
+                            onChange={(newValue) => {
                                 onChange({
                                     ...filter,
-                                    value: e.target.value as string,
+                                    value: newValue?.value || '',
                                 });
                             }}
+                            options={
+                                filterDef?.options?.map((option) => ({
+                                    value: option.id,
+                                    label: option.label,
+                                })) || []
+                            }
                             disabled={!filter.enabled || !isLinkedEnabled}
-                            displayEmpty
-                            renderValue={(selected) => {
-                                const isEmpty = !selected;
-
-                                if (isEmpty) {
-                                    return <Typography variant="body1" color='text.disabled'>Select...</Typography>;
-                                }
-
-                                const option = filterDef?.options?.find(opt => opt.id === selected);
-                                return (
-                                    <Typography
-                                        variant="body1"
-                                        sx={{
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            whiteSpace: 'nowrap'
-                                        }}
-                                    >
-                                        {option?.label}
-                                    </Typography>
-                                );
-                            }}
+                            placeholder="Select..."
+                            searchable={false}
                             sx={{ flex: 1.6 }}
-                        >
-                            {filterDef?.options?.map((option) => (
-                                <MenuItem key={option.id} value={option.id}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-                        </FilterSelect>
+                        />
                     ) : filterDef?.valueType === 'multi-select' ? (
                         <FilterAutocompleteV2
                             multiple

@@ -17,7 +17,7 @@ const InputWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(1, 1),
     paddingRight: theme.spacing(4),
     border: 'none',
-    minHeight: 44,
+    minHeight: 40,
     cursor: 'text',
     '&:hover': {
         backgroundColor: theme.palette.action.hover,

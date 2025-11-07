@@ -7,6 +7,7 @@ export { FilterList } from './FilterList';
 export { OperatorChip } from './OperatorChip';
 export { FilterAutocomplete } from './FilterAutocomplete';
 export { FilterAutocompleteV2 } from './FilterAutocompleteV2';
+export { FilterSelect } from './FilterSelect';
 export { MultiValueLogicSelector } from './MultiValueLogicSelector';
 export { MultiTextInput } from './MultiTextInput';
 export { DateRangeInput } from './DateRangeInput';
