@@ -6,7 +6,7 @@ import {
     Tooltip,
     Paper,
 } from '@mui/material';
-import { Flag, Paperclip, ArrowLeft, Circle } from '@phosphor-icons/react';
+import { PaperclipIcon, CircleIcon, ArrowLeftIcon, FlagIcon } from '@phosphor-icons/react';
 import { SubtaskIcon } from '../../assets/icons';
 
 export interface TaskItemData {
@@ -53,7 +53,7 @@ const WorkStatusIcon: React.FC<{ status?: 'todo' | 'in_progress' }> = ({ status 
                 flexShrink: 0,
             }}
         >
-            <Circle
+            <CircleIcon
                 size={16}
                 weight={isTodo ? 'regular' : 'fill'}
                 color={isTodo ? 'var(--mui-palette-components-icon-secondary)' : 'var(--mui-palette-primary-main)'}
@@ -90,15 +90,6 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
         return 'background.surface_3'; // #ffffff
     };
 
-    const getHoverStyle = () => {
-        if (selected || focused) {
-            return {};
-        }
-        return {
-            backgroundImage: 'linear-gradient(90deg, rgba(14, 15, 18, 0.05) 0%, rgba(14, 15, 18, 0.05) 100%), linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 100%)',
-        };
-    };
-
     return (
         <Paper
             onClick={onClick}
@@ -111,7 +102,9 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
                 bgcolor: getBackgroundStyle(),
                 maxHeight: 156,
                 overflow: 'hidden',
-                '&:hover': getHoverStyle(),
+                '&:hover': {
+                    backgroundColor: 'var(--mui-palette-action-hover)',
+                },
             }}
         >
             {/* Top Row: Type Icon, ID, Urgent Flag on left | Work Status, Attachments, Linked Tasks on right */}
@@ -150,15 +143,8 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
 
                     {/* Task ID */}
                     <Typography
-                        variant="body2"
-                        sx={{
-                            color: 'text.secondary',
-                            fontSize: '0.875rem',
-                            lineHeight: 1.7,
-                            whiteSpace: 'nowrap',
-                            width: 49,
-                            flexShrink: 0,
-                        }}
+                        variant="caption"
+                        color='text.secondary'
                     >
                         {id}
                     </Typography>
@@ -175,7 +161,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
                                 flexShrink: 0,
                             }}
                         >
-                            <Flag size={24} weight="fill" color="rgba(216, 55, 49, 1)" />
+                            <FlagIcon size={24} weight="fill" color="rgba(216, 55, 49, 1)" />
                         </Box>
                     )}
                 </Box>
@@ -239,7 +225,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
                                 flexShrink: 0,
                             }}
                         >
-                            <Paperclip size={20} color="var(--mui-palette-components-icon-secondary)" />
+                            <PaperclipIcon size={20} color="var(--mui-palette-components-icon-secondary)" />
                         </Box>
                     )}
 
@@ -288,8 +274,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
                         <Box
                             sx={{
                                 display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
+                                justifyContent: 'left',
                                 gap: 1,
                                 height: 24,
                                 width: '100%',
@@ -297,16 +282,11 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
                         >
                             <Typography
                                 variant="body2"
-                                dir="auto"
+                                color='text.secondary'
                                 sx={{
-                                    flex: 1,
-                                    color: 'text.secondary',
-                                    fontSize: '14px',
-                                    lineHeight: 1.7,
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
                                     whiteSpace: 'nowrap',
-                                    minWidth: 0,
                                 }}
                             >
                                 {ejsContent}
@@ -328,16 +308,17 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
                         sx={{
                             display: 'flex',
                             alignItems: 'center',
-                            gap: 2,
+                            gap: 1,
                             overflow: 'hidden',
-                            flexShrink: 0,
+                            flexShrink: 1,
+                            minWidth: 0,
                         }}
                     >
                         <Box
                             sx={{
                                 display: 'flex',
                                 alignItems: 'center',
-                                gap: 2,
+                                gap: 1,
                                 flexShrink: 0,
                             }}
                         >
@@ -352,7 +333,6 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
                                             height: 24,
                                             fontSize: '0.75rem',
                                             borderRadius: 0.5,
-                                            cursor: 'help',
                                         }}
                                     >
                                         {fromUser.name?.[0] || '?'}
@@ -372,7 +352,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
                                         flexShrink: 0,
                                     }}
                                 >
-                                    <ArrowLeft size={20} color="var(--mui-palette-components-icon-secondary)" />
+                                    <ArrowLeftIcon size={20} color="var(--mui-palette-components-icon-secondary)" />
                                 </Box>
                             )}
 
@@ -402,7 +382,10 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
                                     color: 'text.secondary',
                                     fontSize: '0.875rem',
                                     lineHeight: 1.7,
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
                                     whiteSpace: 'nowrap',
+                                    maxWidth: 140,
                                 }}
                             >
                                 {flowStatus}
