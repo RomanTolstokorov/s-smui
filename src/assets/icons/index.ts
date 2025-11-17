@@ -18,5 +18,8 @@ export { default as PDFIcon } from './PDF.svg';
 export { default as SDocumentIcon } from './S-Document.svg';
 export { default as SpreadsheetIcon } from './Spreadsheet.svg';
 
+// Task management icons
+export { SubtaskIcon } from './SubtaskIcon';
+
 // Operator icons
 export * from './operators';

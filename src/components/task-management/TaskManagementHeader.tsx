@@ -9,13 +9,13 @@ import {
 } from '@mui/material';
 import {
     PlusIcon,
-    SquaresFourIcon,
+    TableIcon,
     ListBulletsIcon,
     CaretDownIcon,
 } from '@phosphor-icons/react';
 import { islandStyleNoBorder } from '../../theme';
 
-type ViewMode = 'card' | 'list';
+type ViewMode = 'list' | 'table';
 type TabValue = 'all' | 'created-by-me' | 'incoming';
 
 interface TaskManagementHeaderProps {
@@ -158,11 +158,11 @@ export const TaskManagementHeader: React.FC<TaskManagementHeaderProps> = ({
                         onChange={handleViewChange}
                         size="small"
                     >
-                        <ToggleButton value="card" aria-label="card view">
-                            <SquaresFourIcon size={18} />
-                        </ToggleButton>
                         <ToggleButton value="list" aria-label="list view">
                             <ListBulletsIcon size={18} />
+                        </ToggleButton>
+                        <ToggleButton value="table" aria-label="table view">
+                            <TableIcon size={18} />
                         </ToggleButton>
                     </ToggleButtonGroup>
                 </Box>
