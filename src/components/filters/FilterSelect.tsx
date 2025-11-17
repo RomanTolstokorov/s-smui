@@ -10,12 +10,9 @@ import {
 } from '@mui/material';
 import type { AriaAttributes, HTMLAttributes, ReactNode } from 'react';
 import { XIcon, CaretDownIcon } from '@phosphor-icons/react';
+import type { Part, OptionType } from './commonTypes';
 
-export type OptionType = {
-    value: string | number;
-    label?: string;
-    disabled?: boolean;
-};
+export type { OptionType };
 
 type OptionRenderState = {
     selected: boolean;
@@ -28,11 +25,6 @@ type RenderOption<O extends OptionType> = (
     option: O,
     renderState: OptionRenderState
 ) => ReactNode;
-
-export type Part<T = {}> = {
-    className?: string;
-    style?: React.CSSProperties;
-} & T;
 
 type FilterSelectVariants = 'borderless';
 

@@ -17,9 +17,10 @@ import {
 import type { ActiveFilter, FilterDefinition, DateRangeValue, OperatorType } from './types';
 import { getFilterDefinition } from './filterConfigService';
 import { FilterSelect, type OptionType } from './FilterSelect';
-import { FilterAutocompleteV2 } from './FilterAutocompleteV2';
+import { FilterMultiSelect } from './FilterMultiSelect';
 import { MultiTextInput } from './MultiTextInput';
 import { DateRangeInput } from './DateRangeInput';
+import { MultiValueLogicSelector } from './MultiValueLogicSelector';
 import { getOperatorIcon } from './operatorIcons';
 
 interface FilterInputProps {
@@ -498,35 +499,61 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                             sx={{ flex: 1.6 }}
                         />
                     ) : filterDef?.valueType === 'multi-select' ? (
-                        <FilterAutocompleteV2
-                            multiple
-                            disableCloseOnSelect
-                            value={filterDef.options?.filter(opt =>
-                                Array.isArray(filter.value) && filter.value.includes(opt.id)
-                            ) || []}
-                            onChange={(_, newValue) => {
-                                const selectedIds = Array.isArray(newValue)
-                                    ? newValue.map((opt: any) => opt.id)
-                                    : [];
+                        <FilterMultiSelect<OptionType>
+                            value={
+                                filterDef.options
+                                    ?.filter(opt => Array.isArray(filter.value) && filter.value.includes(opt.id))
+                                    .map(opt => ({ value: opt.id, label: opt.label })) || []
+                            }
+                            onChange={(newValue) => {
+                                const selectedIds = newValue.map(opt => opt.value as string);
                                 onChange({
                                     ...filter,
                                     value: selectedIds,
                                 });
                             }}
-                            options={filterDef.options || []}
-                            getOptionLabel={(option: any) => option.label}
+                            options={
+                                filterDef.options?.map(opt => ({ value: opt.id, label: opt.label })) || []
+                            }
                             disabled={!filter.enabled || !isLinkedEnabled}
                             placeholder="Select..."
-                            limitTags={1}
-                            showLogicSelector={true}
-                            logicOperator={filter.valueLogicOperator || 'and'}
-                            onLogicOperatorChange={(operator) => {
-                                onChange({
-                                    ...filter,
-                                    valueLogicOperator: operator,
-                                });
+                            searchable={true}
+                            variant="borderless"
+                            slots={{
+                                optionsListPrefix: (
+                                    <Box sx={{ p: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
+                                        <MultiValueLogicSelector
+                                            value={filter.valueLogicOperator || 'and'}
+                                            onChange={(value) => {
+                                                onChange({
+                                                    ...filter,
+                                                    valueLogicOperator: value,
+                                                });
+                                            }}
+                                        />
+                                    </Box>
+                                ),
+                                inputPrefix:
+                                    Array.isArray(filter.value) && filter.value.length >= 2
+                                        ? (focused) =>
+                                            focused ? null : (
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{
+                                                        textTransform: 'uppercase',
+                                                        fontWeight: 600,
+                                                        fontSize: '0.75rem',
+                                                        color: 'primary.main',
+                                                    }}
+                                                >
+                                                    {filter.valueLogicOperator || 'and'}
+                                                </Typography>
+                                            )
+                                        : undefined,
                             }}
-                            sx={{ flex: 1.6 }}
+                            parts={{
+                                root: { style: { flex: 1.6 } },
+                            }}
                         />
                     ) : null}
                 </Box>
