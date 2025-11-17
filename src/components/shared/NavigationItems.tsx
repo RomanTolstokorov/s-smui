@@ -1,12 +1,12 @@
 import React from 'react';
 import { Box, IconButton, Tooltip } from '@mui/material';
-import { MagnifyingGlassIcon, ChatCircleIcon, PaletteIcon } from '@phosphor-icons/react';
+import { MagnifyingGlassIcon, ChatCircleIcon, PaletteIcon, CheckCircleIcon } from '@phosphor-icons/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const navigationItems = [
     // { text: 'Home', icon: <HouseIcon size={24} />, path: '/' },
     { text: 'Search', icon: <MagnifyingGlassIcon size={24} />, path: '/search' },
-    // { text: 'Task Management', icon: <ClipboardTextIcon size={24} />, path: '/tasks' },
+    { text: 'Task Management', icon: <CheckCircleIcon size={24} />, path: '/tasks' },
     // { text: 'Documents', icon: <FileIcon size={24} />, path: '/documents' },
     // { text: 'Variation Centre', icon: <ChartBarIcon size={24} />, path: '/variation' },
     { text: 'AI Chat', icon: <ChatCircleIcon size={24} />, path: '/chat' },

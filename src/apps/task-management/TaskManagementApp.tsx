@@ -2,253 +2,138 @@ import React, { useState } from 'react';
 import {
     Box,
     Typography,
-    Fab,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    TextField,
-    Button,
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
-    Chip,
     List,
-    ListItem,
-    ListItemText,
-    ListItemIcon,
-    IconButton,
+    Pagination,
 } from '@mui/material';
-import { Plus, CheckCircle, Circle, DotsThreeVertical } from '@phosphor-icons/react';
-import { AppCard, EmptyState } from '../../components';
-import type { Task } from '../../types';
+import { TaskItem, FilterPanel, TaskManagementHeader } from '../../components/task-management';
+import type { TaskItemData } from '../../components/task-management/TaskItem';
+import { mockTaskItems } from '../../mocks';
+import { islandStyle } from '../../theme';
 
-// Mock tasks data
-const mockTasks: Task[] = [
-    {
-        id: '1',
-        title: 'Implement user authentication',
-        description: 'Add OAuth integration and user session management',
-        status: 'in-progress',
-        priority: 'high',
-        createdAt: new Date('2024-01-15'),
-        updatedAt: new Date('2024-01-20'),
-        dueDate: new Date('2024-02-01'),
-    },
-    {
-        id: '2',
-        title: 'Design landing page',
-        description: 'Create wireframes and mockups for the new landing page',
-        status: 'completed',
-        priority: 'medium',
-        createdAt: new Date('2024-01-10'),
-        updatedAt: new Date('2024-01-18'),
-    },
-    {
-        id: '3',
-        title: 'Set up CI/CD pipeline',
-        description: 'Configure automated testing and deployment',
-        status: 'todo',
-        priority: 'high',
-        createdAt: new Date('2024-01-22'),
-        updatedAt: new Date('2024-01-22'),
-        dueDate: new Date('2024-02-15'),
-    },
-];
-
-const getPriorityColor = (priority: Task['priority']) => {
-    switch (priority) {
-        case 'high':
-            return 'error';
-        case 'medium':
-            return 'warning';
-        case 'low':
-            return 'info';
-        default:
-            return 'default';
-    }
-};
+type ViewMode = 'card' | 'list';
+type TabValue = 'all' | 'created-by-me' | 'incoming';
 
 export const TaskManagementApp: React.FC = () => {
-    const [tasks, setTasks] = useState<Task[]>(mockTasks);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [newTask, setNewTask] = useState({
-        title: '',
-        description: '',
-        priority: 'medium' as Task['priority'],
-        dueDate: '',
-    });
+    const [viewMode, setViewMode] = useState<ViewMode>('card');
+    const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [activeTab, setActiveTab] = useState<TabValue>('incoming');
+    const [tasks] = useState<TaskItemData[]>(mockTaskItems);
+    const tasksPerPage = 10;
 
-    const tasksByStatus = {
-        todo: tasks.filter(task => task.status === 'todo'),
-        'in-progress': tasks.filter(task => task.status === 'in-progress'),
-        completed: tasks.filter(task => task.status === 'completed'),
-    };
-
-    const handleCreateTask = () => {
-        if (!newTask.title.trim()) return;
-
-        const task: Task = {
-            id: Date.now().toString(),
-            title: newTask.title,
-            description: newTask.description,
-            status: 'todo',
-            priority: newTask.priority,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            dueDate: newTask.dueDate ? new Date(newTask.dueDate) : undefined,
-        };
-
-        setTasks(prev => [...prev, task]);
-        setNewTask({ title: '', description: '', priority: 'medium', dueDate: '' });
-        setIsDialogOpen(false);
-    };
-
-    const toggleTaskStatus = (taskId: string) => {
-        setTasks(prev => prev.map(task => {
-            if (task.id === taskId) {
-                const newStatus = task.status === 'completed' ? 'todo' :
-                    task.status === 'todo' ? 'in-progress' : 'completed';
-                return { ...task, status: newStatus, updatedAt: new Date() };
-            }
-            return task;
-        }));
-    };
-
-    const TaskColumn: React.FC<{ title: string; tasks: Task[] }> = ({
-        title,
-        tasks: columnTasks,
-    }) => (
-        <AppCard title={`${title} (${columnTasks.length})`}>
-            {columnTasks.length === 0 ? (
-                <EmptyState
-                    icon={<CheckCircle size={48} />}
-                    title="No tasks"
-                    description={`No tasks in ${title.toLowerCase()}`}
-                />
-            ) : (
-                <List>
-                    {columnTasks.map((task) => (
-                        <ListItem key={task.id} sx={{ px: 0 }}>
-                            <ListItemIcon>
-                                <IconButton onClick={() => toggleTaskStatus(task.id)}>
-                                    {task.status === 'completed' ? <CheckCircle color="green" /> : <Circle />}
-                                </IconButton>
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-                                        <Typography variant="subtitle1">{task.title}</Typography>
-                                        <Chip
-                                            label={task.priority}
-                                            size="small"
-                                            color={getPriorityColor(task.priority) as any}
-                                            variant="outlined"
-                                        />
-                                    </Box>
-                                }
-                                secondary={
-                                    <Box>
-                                        {task.description && (
-                                            <Typography variant="body2" color="text.secondary" paragraph>
-                                                {task.description}
-                                            </Typography>
-                                        )}
-                                        {task.dueDate && (
-                                            <Typography variant="caption" color="text.secondary">
-                                                Due: {task.dueDate.toLocaleDateString()}
-                                            </Typography>
-                                        )}
-                                    </Box>
-                                }
-                            />
-                            <IconButton size="small">
-                                <DotsThreeVertical />
-                            </IconButton>
-                        </ListItem>
-                    ))}
-                </List>
-            )}
-        </AppCard>
-    );
+    const totalPages = Math.ceil(tasks.length / tasksPerPage);
+    const startIndex = (currentPage - 1) * tasksPerPage;
+    const currentTasks = tasks.slice(startIndex, startIndex + tasksPerPage);
 
     return (
-        <Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                <Typography variant="h4">Task Management</Typography>
-                <Fab color="primary" aria-label="add" onClick={() => setIsDialogOpen(true)}>
-                    <Plus />
-                </Fab>
-            </Box>
+        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {/* Header */}
+            <TaskManagementHeader
+                viewMode={viewMode}
+                activeTab={activeTab}
+                onViewModeChange={setViewMode}
+                onTabChange={setActiveTab}
+            />
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, gap: 3 }}>
-                <Box>
-                    <TaskColumn title="To Do" tasks={tasksByStatus.todo} />
+            {/* Main Content Area */}
+            <Box sx={{ display: 'flex', gap: 2, flex: 1, minHeight: 0 }}>
+                {/* Left Panel - Task Details Placeholder */}
+                <Box
+                    sx={{
+                        ...islandStyle,
+                        width: 300,
+                        flexShrink: 0,
+                        p: 3,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Typography variant="body2" color="text.secondary">
+                        Task details panel
+                        <br />
+                        (In progress)
+                    </Typography>
                 </Box>
-                <Box>
-                    <TaskColumn title="In Progress" tasks={tasksByStatus['in-progress']} />
-                </Box>
-                <Box>
-                    <TaskColumn title="Completed" tasks={tasksByStatus.completed} />
-                </Box>
-            </Box>
 
-            {/* Create Task Dialog */}
-            <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)} maxWidth="sm" fullWidth>
-                <DialogTitle>Create New Task</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        label="Task Title"
-                        fullWidth
-                        variant="outlined"
-                        value={newTask.title}
-                        onChange={(e) => setNewTask(prev => ({ ...prev, title: e.target.value }))}
-                        sx={{ mb: 2 }}
-                    />
-                    <TextField
-                        margin="dense"
-                        label="Description"
-                        fullWidth
-                        multiline
-                        rows={3}
-                        variant="outlined"
-                        value={newTask.description}
-                        onChange={(e) => setNewTask(prev => ({ ...prev, description: e.target.value }))}
-                        sx={{ mb: 2 }}
-                    />
-                    <FormControl fullWidth margin="dense" sx={{ mb: 2 }}>
-                        <InputLabel>Priority</InputLabel>
-                        <Select
-                            value={newTask.priority}
-                            label="Priority"
-                            onChange={(e) => setNewTask(prev => ({ ...prev, priority: e.target.value as Task['priority'] }))}
+                {/* Center Panel - Task List */}
+                <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                    <Box
+                        sx={{
+                            ...islandStyle,
+                            flex: 1,
+                            overflow: 'hidden',
+                            display: 'flex',
+                            flexDirection: 'column',
+                        }}
+                    >
+                        {/* Task List Container */}
+                        <Box sx={{ flex: 1, overflow: 'auto' }}>
+                            {viewMode === 'card' ? (
+                                <Box
+                                    sx={{
+                                        display: 'grid',
+                                        gridTemplateColumns: {
+                                            xs: '1fr',
+                                            sm: 'repeat(2, 1fr)',
+                                            lg: 'repeat(3, 1fr)',
+                                        },
+                                        gap: 2,
+                                        p: 2,
+                                    }}
+                                >
+                                    {currentTasks.map((task: TaskItemData) => (
+                                        <TaskItem
+                                            key={task.id}
+                                            {...task}
+                                            view="card"
+                                            selected={selectedTaskId === task.id}
+                                            onClick={() => setSelectedTaskId(task.id)}
+                                        />
+                                    ))}
+                                </Box>
+                            ) : (
+                                <List disablePadding>
+                                    {currentTasks.map((task: TaskItemData) => (
+                                        <TaskItem
+                                            key={task.id}
+                                            {...task}
+                                            view="list"
+                                            selected={selectedTaskId === task.id}
+                                            onClick={() => setSelectedTaskId(task.id)}
+                                        />
+                                    ))}
+                                </List>
+                            )}
+                        </Box>
+
+                        {/* Pagination */}
+                        <Box
+                            sx={{
+                                p: 2,
+                                borderTop: '1px solid',
+                                borderColor: 'divider',
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}
                         >
-                            <MenuItem value="low">Low</MenuItem>
-                            <MenuItem value="medium">Medium</MenuItem>
-                            <MenuItem value="high">High</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <TextField
-                        margin="dense"
-                        label="Due Date"
-                        type="date"
-                        fullWidth
-                        variant="outlined"
-                        InputLabelProps={{ shrink: true }}
-                        value={newTask.dueDate}
-                        onChange={(e) => setNewTask(prev => ({ ...prev, dueDate: e.target.value }))}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setIsDialogOpen(false)}>Cancel</Button>
-                    <Button onClick={handleCreateTask} variant="contained" disabled={!newTask.title.trim()}>
-                        Create Task
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                            <Pagination
+                                count={totalPages}
+                                page={currentPage}
+                                onChange={(_, page) => setCurrentPage(page)}
+                                color="primary"
+                                showFirstButton
+                                showLastButton
+                            />
+                        </Box>
+                    </Box>
+                </Box>
+
+                {/* Right Panel - Filters */}
+                <Box sx={{ width: 280, flexShrink: 0 }}>
+                    <FilterPanel />
+                </Box>
+            </Box>
         </Box>
     );
 };

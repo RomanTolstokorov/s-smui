@@ -1,5 +1,8 @@
 import type { Task, Document, SearchResult, ChatConversation } from '../types';
 
+// Export task management data
+export * from './taskManagementData';
+
 // Mock Tasks
 export const mockTasks: Task[] = [
   {

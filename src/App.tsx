@@ -9,7 +9,8 @@ import { AppThemeProvider } from './contexts';
 import {
   SearchApp,
   AIChatApp,
-  PlaygroundApp
+  PlaygroundApp,
+  TaskManagementApp
 } from './apps';
 
 // Create RTL cache using official MUI plugin
@@ -29,7 +30,7 @@ function App() {
                 <Routes>
                   {/* <Route path="/" element={<HomeApp />} /> */}
                   <Route path="/search" element={<SearchApp />} />
-                  {/* <Route path="/tasks" element={<TaskManagementApp />} /> */}
+                  <Route path="/tasks" element={<TaskManagementApp />} />
                   {/* <Route path="/documents" element={<DocumentsApp />} /> */}
                   {/* <Route path="/variation" element={<VariationCentreApp />} /> */}
                   <Route path="/chat" element={<AIChatApp />} />

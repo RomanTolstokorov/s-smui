@@ -3,8 +3,10 @@ export { default as theme } from './theme';
 export type { Theme } from '@mui/material/styles';
 
 // Export modular theme parts for advanced usage
-export { lightPalette, darkPalette } from './colors';
-export { typography } from './typography';
+export * from './theme';
+export * from './typography';
+export * from './colors';
+export * from './island';
 export { components } from './components';
 
 // Import theme augmentations to ensure they are applied

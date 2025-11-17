@@ -4,11 +4,10 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
 import { NavigationItems } from './NavigationItems';
-import { useAppTheme } from '../../contexts';
 import { useColorScheme } from '@mui/material/styles';
+import { islandStyleNoBorder } from '../../theme';
 
 export const Sidebar: React.FC = () => {
-    const { currentTheme } = useAppTheme();
     const { mode, setMode } = useColorScheme();
 
     // Menu state for the profile/avatar menu
@@ -31,10 +30,9 @@ export const Sidebar: React.FC = () => {
     return (
         <Box
             sx={{
+                ...islandStyleNoBorder,
                 width: 64,
                 height: '100%',
-                backgroundColor: currentTheme.sidebarBackgroundColor,
-                borderRadius: (theme) => theme.shape.borderRadius,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
