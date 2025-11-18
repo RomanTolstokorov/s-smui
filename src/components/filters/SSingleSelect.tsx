@@ -119,7 +119,7 @@ const styledTextFieldComponents: Record<FilterSelectVariants, typeof BorderlessT
     standard: StandardTextField,
 };
 
-export const FilterSelect = <O extends OptionType>({
+export const SSingleSelect = <O extends OptionType>({
     id,
     value,
     onChange,

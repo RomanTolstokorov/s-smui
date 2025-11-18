@@ -44,18 +44,18 @@ type RenderValueItem<O extends OptionType> = (
     onDelete: (event: any) => void
 ) => ReactNode;
 
-export type FilterMultiSelectVariants = 'borderless' | 'standard';
-export type FilterMultiSelectSize = 'small' | 'medium';
+export type SMultiSelectVariants = 'borderless' | 'standard';
+export type SMultiSelectSize = 'small' | 'medium';
 
-type FilterMultiSelectProps<O extends OptionType> = {
+type SMultiSelectProps<O extends OptionType> = {
     id?: string;
     value: O[];
     options: O[];
     onChange: (option: O[]) => void;
     placeholder?: string;
     label?: string;
-    variant?: FilterMultiSelectVariants;
-    size?: FilterMultiSelectSize;
+    variant?: SMultiSelectVariants;
+    size?: SMultiSelectSize;
     disabled?: boolean;
     searchable?: boolean;
     clearable?: boolean;
@@ -241,12 +241,12 @@ const HiddenOption = styled('div')({
     height: '0 !important',
 });
 
-const styledTextFieldComponents: Record<FilterMultiSelectVariants, typeof BorderlessTextField> = {
+const styledTextFieldComponents: Record<SMultiSelectVariants, typeof BorderlessTextField> = {
     borderless: BorderlessTextField,
     standard: StandardTextField,
 };
 
-export const FilterMultiSelect = <O extends OptionType>({
+export const SMultiSelect = <O extends OptionType>({
     id: propsId,
     value: propsValue,
     onChange,
@@ -262,7 +262,7 @@ export const FilterMultiSelect = <O extends OptionType>({
     parts,
     slots,
     ...attributes
-}: FilterMultiSelectProps<O>): ReactElement | null => {
+}: SMultiSelectProps<O>): ReactElement | null => {
     const scrollAreaRef = useRef<HTMLUListElement>(null);
 
     const {

@@ -16,8 +16,8 @@ import {
 } from '@phosphor-icons/react';
 import type { ActiveFilter, FilterDefinition, DateRangeValue, OperatorType } from './types';
 import { getFilterDefinition } from './filterConfigService';
-import { FilterSelect, type OptionType } from './FilterSelect';
-import { FilterMultiSelect } from './FilterMultiSelect';
+import { SSingleSelect, type OptionType } from './SSingleSelect';
+import { SMultiSelect } from './SMultiSelect';
 import { MultiTextInput } from './MultiTextInput';
 import { DateRangeInput } from './DateRangeInput';
 import { MultiValueLogicSelector } from './MultiValueLogicSelector';
@@ -220,7 +220,7 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                         </Typography>
                     </Box>
                 ) : (
-                    <FilterSelect
+                    <SSingleSelect
                         variant="borderless"
                         value={
                             availableFilters.find(f => f.id === filter.filterId)
@@ -269,7 +269,7 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                     }}
                 >
                     {/* Operator Section */}
-                    <FilterSelect<OperatorOption>
+                    <SSingleSelect<OperatorOption>
                         variant="borderless"
                         value={selectedOperator}
                         onChange={(newValue) => {
@@ -432,7 +432,7 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                             />
                         </Box>
                     ) : filterDef?.valueType === 'boolean' ? (
-                        <FilterSelect<OptionType>
+                        <SSingleSelect<OptionType>
                             variant="borderless"
                             value={{
                                 value: typeof filter.value === 'boolean' ? (filter.value ? 'true' : 'false') : 'false',
@@ -473,7 +473,7 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                             }}
                         />
                     ) : filterDef?.valueType === 'single-select' ? (
-                        <FilterSelect<OptionType>
+                        <SSingleSelect<OptionType>
                             variant="borderless"
                             value={
                                 filterDef?.options?.find(opt => opt.id === filter.value)
@@ -501,7 +501,7 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                             sx={{ flex: 1.6 }}
                         />
                     ) : filterDef?.valueType === 'multi-select' ? (
-                        <FilterMultiSelect<OptionType>
+                        <SMultiSelect<OptionType>
                             variant="borderless"
                             value={
                                 filterDef.options
