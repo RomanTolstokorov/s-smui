@@ -44,7 +44,8 @@ type RenderValueItem<O extends OptionType> = (
     onDelete: (event: any) => void
 ) => ReactNode;
 
-export type FilterMultiSelectVariants = 'borderless';
+export type FilterMultiSelectVariants = 'borderless' | 'standard';
+export type FilterMultiSelectSize = 'small' | 'medium';
 
 type FilterMultiSelectProps<O extends OptionType> = {
     id?: string;
@@ -52,7 +53,9 @@ type FilterMultiSelectProps<O extends OptionType> = {
     options: O[];
     onChange: (option: O[]) => void;
     placeholder?: string;
+    label?: string;
     variant?: FilterMultiSelectVariants;
+    size?: FilterMultiSelectSize;
     disabled?: boolean;
     searchable?: boolean;
     clearable?: boolean;
@@ -90,6 +93,15 @@ const DEFAULT_COUNTER_POPPER_MAX_WIDTH = 200;
 
 const textMeasurer = new TextMeasurer();
 
+const StandardTextField = styled(TextField)(({ }) => ({
+    '& .MuiOutlinedInput-root': {
+        height: 'auto',
+        '&.MuiInputBase-sizeSmall': {
+            padding: '0 14px',
+        },
+    },
+}));
+
 const BorderlessTextField = styled(TextField)(({ theme }) => ({
     '& .MuiOutlinedInput-root': {
         border: 'none',
@@ -97,7 +109,7 @@ const BorderlessTextField = styled(TextField)(({ theme }) => ({
         borderRadius: 0,
         padding: '0 4px 0 12px',
         minHeight: '40px',
-        height: '40px',
+        height: 'auto',
         '& .MuiInputBase-input': {
             padding: 0,
         },
@@ -231,6 +243,7 @@ const HiddenOption = styled('div')({
 
 const styledTextFieldComponents: Record<FilterMultiSelectVariants, typeof BorderlessTextField> = {
     borderless: BorderlessTextField,
+    standard: StandardTextField,
 };
 
 export const FilterMultiSelect = <O extends OptionType>({
@@ -238,12 +251,14 @@ export const FilterMultiSelect = <O extends OptionType>({
     value: propsValue,
     onChange,
     options,
-    variant = 'borderless',
+    variant = 'standard',
+    size = 'small',
     disabled = false,
     searchable = false,
     clearable = true,
     filterOptions,
     placeholder = 'Select options',
+    label,
     parts,
     slots,
     ...attributes
@@ -517,6 +532,8 @@ export const FilterMultiSelect = <O extends OptionType>({
             <TextInputField
                 ref={setAnchorEl}
                 fullWidth
+                size={size}
+                label={variant === 'standard' ? label : undefined}
                 placeholder={value.length === 0 ? placeholder : undefined}
                 onClick={() => inputRef.current?.focus()}
                 disabled={disabled || !isSearchable}

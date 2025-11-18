@@ -5,8 +5,6 @@ export { FilterOperator } from './FilterOperator';
 export { FilterEmptyState } from './FilterEmptyState';
 export { FilterList } from './FilterList';
 export { OperatorChip } from './OperatorChip';
-export { FilterAutocomplete } from './FilterAutocomplete';
-export { FilterAutocompleteV2 } from './FilterAutocompleteV2';
 export { FilterSelect } from './FilterSelect';
 export { FilterMultiSelect } from './FilterMultiSelect';
 export { MultiValueLogicSelector } from './MultiValueLogicSelector';

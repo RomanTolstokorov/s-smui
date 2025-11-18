@@ -221,6 +221,7 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                     </Box>
                 ) : (
                     <FilterSelect
+                        variant="borderless"
                         value={
                             availableFilters.find(f => f.id === filter.filterId)
                                 ? {
@@ -253,7 +254,6 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                         disabled={!filter.enabled || !isLinkedEnabled}
                         placeholder={isEmptyFilter ? 'Select filter type' : ''}
                         searchable={true}
-                        variant="borderless"
                     />
                 )}
 
@@ -270,6 +270,7 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                 >
                     {/* Operator Section */}
                     <FilterSelect<OperatorOption>
+                        variant="borderless"
                         value={selectedOperator}
                         onChange={(newValue) => {
                             if (!newValue) return;
@@ -281,7 +282,6 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                         options={operatorOptions}
                         disabled={isOperatorDisabled}
                         clearable={false}
-                        variant='borderless'
                         slots={{
                             renderValue: (option) => {
                                 // Render responsibility: Determine icon state based on component state
@@ -433,6 +433,7 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                         </Box>
                     ) : filterDef?.valueType === 'boolean' ? (
                         <FilterSelect<OptionType>
+                            variant="borderless"
                             value={{
                                 value: typeof filter.value === 'boolean' ? (filter.value ? 'true' : 'false') : 'false',
                                 label: typeof filter.value === 'boolean' ? (filter.value ? 'True' : 'False') : 'False',
@@ -473,6 +474,7 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                         />
                     ) : filterDef?.valueType === 'single-select' ? (
                         <FilterSelect<OptionType>
+                            variant="borderless"
                             value={
                                 filterDef?.options?.find(opt => opt.id === filter.value)
                                     ? {
@@ -500,6 +502,7 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                         />
                     ) : filterDef?.valueType === 'multi-select' ? (
                         <FilterMultiSelect<OptionType>
+                            variant="borderless"
                             value={
                                 filterDef.options
                                     ?.filter(opt => Array.isArray(filter.value) && filter.value.includes(opt.id))
@@ -518,7 +521,6 @@ export const FilterInput: React.FC<FilterInputProps> = ({
                             disabled={!filter.enabled || !isLinkedEnabled}
                             placeholder="Select..."
                             searchable={true}
-                            variant="borderless"
                             slots={{
                                 optionsListPrefix: (
                                     <Box sx={{ p: 2, borderBottom: '1px solid', borderColor: 'divider' }}>

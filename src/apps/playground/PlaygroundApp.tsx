@@ -4,6 +4,7 @@ import {
     Typography,
     Container,
     Paper,
+    Stack,
     Button,
     TextField,
     Card,
@@ -55,7 +56,7 @@ import {
 } from '@mui/material';
 import { useThemeMode } from '../../contexts';
 import { FileAttachment } from '../../components/shared';
-import { MultiValueLogicSelector } from '../../components/filters';
+import { MultiValueLogicSelector, FilterSelect, FilterMultiSelect, type OptionType } from '../../components/filters';
 import type { ValueLogicOperator } from '../../components/filters/types';
 import {
     Home,
@@ -81,6 +82,14 @@ export const PlaygroundApp: React.FC = () => {
     const [autocompleteValue, setAutocompleteValue] = useState<string | null>(null);
     const [autocompleteMultiValue, setAutocompleteMultiValue] = useState<string[]>([]);
     const [logicOperator, setLogicOperator] = useState<ValueLogicOperator>('and');
+
+    // Filter component states
+    const [selectedCountry, setSelectedCountry] = useState<OptionType | null>(null);
+    const [selectedStatus, setSelectedStatus] = useState<OptionType | null>(null);
+    const [selectedPriority, setSelectedPriority] = useState<OptionType | null>(null);
+    const [selectedTags, setSelectedTags] = useState<OptionType[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<OptionType[]>([]);
+
     const { mode, setMode } = useThemeMode();
     const isDarkMode = mode === 'dark';
 
@@ -344,6 +353,111 @@ export const PlaygroundApp: React.FC = () => {
                                     )}
                                 />
                             </Box>
+                        </ComponentSection>
+                    </Box>
+
+                    {/* Select Components Section */}
+                    <Box sx={{ flex: '1 1 500px', minWidth: '300px' }}>
+                        <ComponentSection title="Select">
+                            <Stack spacing={6}>
+                                {/* FilterSelect - Standard Variant */}
+                                <Box>
+                                    <Typography variant="subtitle2" gutterBottom>
+                                        FilterSelect - Standard Variant (with label)
+                                    </Typography>
+                                    <Stack spacing={5}>
+                                        <FilterSelect
+                                            label="Select Country"
+                                            placeholder="Choose a country"
+                                            value={selectedCountry}
+                                            onChange={setSelectedCountry}
+                                            options={[
+                                                { value: 'us', label: 'United States' },
+                                                { value: 'uk', label: 'United Kingdom' },
+                                                { value: 'ca', label: 'Canada' },
+                                                { value: 'au', label: 'Australia' },
+                                                { value: 'de', label: 'Germany' },
+                                            ]}
+                                            searchable
+                                            variant="standard"
+                                            size='small'
+                                        />
+                                        <FilterSelect
+                                            label="Select Status"
+                                            value={selectedStatus}
+                                            onChange={setSelectedStatus}
+                                            options={[
+                                                { value: 'active', label: 'Active' },
+                                                { value: 'inactive', label: 'Inactive' },
+                                                { value: 'pending', label: 'Pending' },
+                                            ]}
+                                            variant="standard"
+                                            size='medium'
+                                        />
+                                    </Stack>
+                                </Box>
+
+                                {/* FilterMultiSelect - Standard Variant */}
+                                <Box>
+                                    <Typography variant="subtitle2" gutterBottom fontWeight={600}>
+                                        FilterMultiSelect - Standard Variant (with label)
+                                    </Typography>
+                                    <Stack spacing={2}>
+                                        <FilterMultiSelect
+                                            label="Select Tags"
+                                            placeholder="Choose tags"
+                                            value={selectedTags}
+                                            onChange={setSelectedTags}
+                                            options={[
+                                                { value: 'react', label: 'React' },
+                                                { value: 'typescript', label: 'TypeScript' },
+                                                { value: 'mui', label: 'Material-UI' },
+                                                { value: 'vite', label: 'Vite' },
+                                                { value: 'node', label: 'Node.js' },
+                                            ]}
+                                            searchable
+                                            variant="standard"
+                                            size='small'
+                                        />
+                                    </Stack>
+                                </Box>
+
+                                {/* Borderless Variants */}
+                                <Box>
+                                    <Typography variant="subtitle2" gutterBottom fontWeight={600}>
+                                        Borderless Variants (embedded in containers)
+                                    </Typography>
+                                    <Stack spacing={2}>
+
+                                        <FilterSelect
+                                            placeholder="Select priority"
+                                            value={selectedPriority}
+                                            onChange={setSelectedPriority}
+                                            options={[
+                                                { value: 'high', label: 'High' },
+                                                { value: 'medium', label: 'Medium' },
+                                                { value: 'low', label: 'Low' },
+                                            ]}
+                                            variant="borderless"
+                                        />
+
+                                        <FilterMultiSelect
+                                            placeholder="Select categories"
+                                            value={selectedCategories}
+                                            onChange={setSelectedCategories}
+                                            options={[
+                                                { value: 'frontend', label: 'Frontend' },
+                                                { value: 'backend', label: 'Backend' },
+                                                { value: 'devops', label: 'DevOps' },
+                                                { value: 'design', label: 'Design' },
+                                            ]}
+                                            variant="borderless"
+                                            searchable
+                                        />
+
+                                    </Stack>
+                                </Box>
+                            </Stack>
                         </ComponentSection>
                     </Box>
                 </Box>

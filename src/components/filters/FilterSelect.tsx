@@ -26,7 +26,8 @@ type RenderOption<O extends OptionType> = (
     renderState: OptionRenderState
 ) => ReactNode;
 
-type FilterSelectVariants = 'borderless';
+type FilterSelectVariants = 'borderless' | 'standard';
+type FilterSelectSize = 'small' | 'medium';
 
 type FilterSelectProps<O extends OptionType> = {
     id?: string;
@@ -34,7 +35,9 @@ type FilterSelectProps<O extends OptionType> = {
     options: O[];
     onChange: (option: O | null) => void;
     placeholder?: string;
+    label?: string;
     variant?: FilterSelectVariants;
+    size?: FilterSelectSize;
     disabled?: boolean;
     searchable?: boolean;
     clearable?: boolean;
@@ -60,12 +63,23 @@ type FilterSelectProps<O extends OptionType> = {
 
 const CONTROL_BUTTON_SIZE = 32;
 
+const StandardTextField = styled(TextField)(({ }) => ({
+    '& .MuiOutlinedInput-root': {
+
+        '&.MuiInputBase-sizeSmall': {
+            padding: '4px 4px 4px 9px',
+        },
+    },
+}));
+
 const BorderlessTextField = styled(TextField)(({ theme }) => ({
     '& .MuiOutlinedInput-root': {
         border: 'none',
         boxShadow: 'none',
         borderRadius: 0,
-        padding: '4px 4px 4px 12px',
+        padding: '0 4px 0 12px',
+        minHeight: '40px',
+        height: '40px',
         '& .MuiAutocomplete-input': {
             padding: 0,
         },
@@ -102,6 +116,7 @@ const SelectValueContainer = styled(Box)({
 
 const styledTextFieldComponents: Record<FilterSelectVariants, typeof BorderlessTextField> = {
     borderless: BorderlessTextField,
+    standard: StandardTextField,
 };
 
 export const FilterSelect = <O extends OptionType>({
@@ -109,12 +124,14 @@ export const FilterSelect = <O extends OptionType>({
     value,
     onChange,
     options,
-    variant = 'borderless',
+    variant = 'standard',
+    size = 'small',
     disabled = false,
     searchable = false,
     clearable = true,
     filterOptions,
     placeholder = 'Select an option',
+    label,
     parts,
     slots,
     sx,
@@ -236,6 +253,8 @@ export const FilterSelect = <O extends OptionType>({
                 return (
                     <TextInputField
                         {...params}
+                        size={size}
+                        label={variant === 'standard' ? label : undefined}
                         placeholder={value ? undefined : placeholder}
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
