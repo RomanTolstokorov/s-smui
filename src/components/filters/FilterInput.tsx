@@ -16,8 +16,8 @@ import {
 } from '@phosphor-icons/react';
 import type { ActiveFilter, FilterDefinition, DateRangeValue, OperatorType } from './types';
 import { getFilterDefinition } from './filterConfigService';
-import { SSingleSelect, type OptionType } from './SSingleSelect';
-import { SMultiSelect } from './SMultiSelect';
+import { SSingleSelect, type OptionType } from '../ui/SSingleSelect';
+import { SMultiSelect } from '../ui/SMultiSelect';
 import { MultiTextInput } from './MultiTextInput';
 import { DateRangeInput } from './DateRangeInput';
 import { MultiValueLogicSelector } from './MultiValueLogicSelector';

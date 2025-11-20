@@ -4,9 +4,9 @@ import {
     Typography,
     Pagination,
 } from '@mui/material';
-import { FilterPanel, TaskManagementHeader, TaskListItem } from '../../components/task-management';
+import { TaskFilterPanel, TaskManagementHeader, TaskListItem } from '../../components/task-management';
 import type { TaskItemData } from '../../components/task-management/TaskListItem';
-import { mockTaskItems } from '../../mocks';
+import { mockTaskItems, taskFilterDefinitions, mockSavedSearches } from '../../mocks';
 import { islandStyle } from '../../theme';
 
 type ViewMode = 'list' | 'table';
@@ -37,9 +37,14 @@ export const TaskManagementApp: React.FC = () => {
             {/* Main Content Area */}
             <Box sx={{ display: 'flex', gap: 2, flex: 1, minHeight: 0 }}>
                 {/* Right Panel - Filters */}
-                <Box sx={{ flex: 1.2 }}>
-                    <FilterPanel />
-                </Box>
+                <TaskFilterPanel
+                    filterDefinitions={taskFilterDefinitions}
+                    initialSavedSearches={mockSavedSearches}
+                    onFiltersChange={(filters) => {
+                        console.log('Filters changed:', filters);
+                        // TODO: Apply filters to task list
+                    }}
+                />
 
                 {/* Center Panel - Task List */}
                 <Box sx={{ flex: 1.2, display: 'flex', flexDirection: 'column', minWidth: 0, width: 400, }}>

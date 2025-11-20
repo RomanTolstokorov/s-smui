@@ -56,7 +56,8 @@ import {
 } from '@mui/material';
 import { useThemeMode } from '../../contexts';
 import { FileAttachment } from '../../components/shared';
-import { MultiValueLogicSelector, FilterSelect, FilterMultiSelect, type OptionType } from '../../components/filters';
+import { MultiValueLogicSelector, SSingleSelect, SMultiSelect } from '../../components/filters';
+import type { OptionType } from '../../components/ui';
 import type { ValueLogicOperator } from '../../components/filters/types';
 import {
     Home,
@@ -366,7 +367,7 @@ export const PlaygroundApp: React.FC = () => {
                                         FilterSelect - Standard Variant (with label)
                                     </Typography>
                                     <Stack spacing={5}>
-                                        <FilterSelect
+                                        <SSingleSelect
                                             label="Select Country"
                                             placeholder="Choose a country"
                                             value={selectedCountry}
@@ -382,7 +383,7 @@ export const PlaygroundApp: React.FC = () => {
                                             variant="standard"
                                             size='small'
                                         />
-                                        <FilterSelect
+                                        <SSingleSelect
                                             label="Select Status"
                                             value={selectedStatus}
                                             onChange={setSelectedStatus}
@@ -403,7 +404,7 @@ export const PlaygroundApp: React.FC = () => {
                                         FilterMultiSelect - Standard Variant (with label)
                                     </Typography>
                                     <Stack spacing={2}>
-                                        <FilterMultiSelect
+                                        <SMultiSelect
                                             label="Select Tags"
                                             placeholder="Choose tags"
                                             value={selectedTags}
@@ -429,8 +430,8 @@ export const PlaygroundApp: React.FC = () => {
                                     </Typography>
                                     <Stack spacing={2}>
 
-                                        <FilterSelect
-                                            placeholder="Select priority"
+                                        <SSingleSelect
+                                            // placeholder="Select priority"
                                             value={selectedPriority}
                                             onChange={setSelectedPriority}
                                             options={[
@@ -441,7 +442,7 @@ export const PlaygroundApp: React.FC = () => {
                                             variant="borderless"
                                         />
 
-                                        <FilterMultiSelect
+                                        <SMultiSelect
                                             placeholder="Select categories"
                                             value={selectedCategories}
                                             onChange={setSelectedCategories}
