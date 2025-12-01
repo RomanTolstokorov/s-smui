@@ -57,7 +57,7 @@ export const darkPalette = {
   divider: '#ffffff1f',
   action: {
     active: 'rgba(255, 255, 255, 0.6)',
-    activatedOpacity: 0.24,
+    activatedOpacity: 0.20,
     hover: 'rgba(255, 255, 255, 0.08)',
     hoverOpacity: 0.08,
     selected: 'rgba(255, 255, 255, 0.15)',
