@@ -6,10 +6,6 @@ export const lightPalette = {
     dark: '#163bf5',
     light: '#6196f8',
     contrastText: '#f7f7f7',
-    states: {
-      selected: 'rgba(40, 108, 255, 0.08)', // From Figma annotations
-      focus: 'rgba(40, 108, 255, 0.15)', // From Figma annotations
-    },
   },
   secondary: {
     main: '#232528',
