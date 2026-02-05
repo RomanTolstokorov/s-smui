@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Button, IconButton, Divider } from '@mui/material';
-import { ArrowsOut, ClockCounterClockwise, DotsThree, DotsThreeIcon } from '@phosphor-icons/react';
+import { Box, Button, IconButton } from '@mui/material';
+import { ArrowsOutIcon, ClockCounterClockwiseIcon, DotsThreeIcon } from '@phosphor-icons/react';
 
 /**
  * Action button configuration for workflow actions
@@ -132,7 +132,7 @@ export const PreviewToolbar: React.FC<PreviewToolbarProps> = ({
                             height: 40,
                         }}
                     >
-                        <ArrowsOut size={24} weight="regular" />
+                        <ArrowsOutIcon size={24} weight="regular" />
                     </IconButton>
                 )}
 
@@ -146,7 +146,7 @@ export const PreviewToolbar: React.FC<PreviewToolbarProps> = ({
                             height: 40,
                         }}
                     >
-                        <ClockCounterClockwise size={24} weight="regular" />
+                        <ClockCounterClockwiseIcon size={24} weight="regular" />
                     </IconButton>
                 )}
 
