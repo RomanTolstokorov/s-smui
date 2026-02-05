@@ -143,7 +143,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({
                 <Tabs
                     value={activeTab}
                     onChange={handleTabChange}
-                    // variant="scrollable"
+                    variant="scrollable"
                     scrollButtons="auto"
                     sx={{
                         display: 'flex',

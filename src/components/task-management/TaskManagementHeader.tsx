@@ -71,17 +71,11 @@ export const TaskManagementHeader: React.FC<TaskManagementHeaderProps> = ({
                         badge={
                             <Badge
                                 badgeContent="34/357"
-                                color="error"
                                 sx={{
                                     '& .MuiBadge-badge': {
                                         position: 'static',
                                         transform: 'none',
-                                        fontSize: '0.75rem',
                                         fontWeight: 700,
-                                        lineHeight: '20px',
-                                        height: 20,
-                                        minWidth: 20,
-                                        px: 0.8125,
                                     },
                                 }}
                             />
