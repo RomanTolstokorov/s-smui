@@ -50,12 +50,13 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
                 open={!!notification}
                 autoHideDuration={6000}
                 onClose={handleClose}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
                 <Alert
                     onClose={handleClose}
                     severity={notification?.severity || 'info'}
-                    variant="filled"
+                    elevation={6}
+                    // variant="filled"
                     sx={{ width: '100%' }}
                 >
                     {notification?.message}

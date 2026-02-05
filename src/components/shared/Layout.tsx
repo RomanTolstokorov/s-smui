@@ -18,7 +18,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 width: '100vw',
                 backgroundColor: currentTheme.pageBackgroundColor,
                 transition: 'background-color 0.6s ease-in-out',
-                p: 2,
+                p: 1,
                 boxSizing: 'border-box',
             }}
         >
@@ -28,7 +28,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 sx={{
                     flex: 1,
                     height: '100%',
-                    ml: 2,
+                    ml: 1,
                     overflow: 'auto',
                     backgroundColor: 'transparent',
                     display: 'flex',

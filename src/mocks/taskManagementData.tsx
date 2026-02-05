@@ -144,4 +144,81 @@ export const mockTaskItems: TaskItemData[] = [
         ejsContent: 'مشروع كبير متعدد المراحل',
         typeIcon: <TypeIcon Icon={Bell} />,
     },
+    // Document type tasks
+    {
+        id: 'doc-001',
+        subject: 'استراتيجية الأمن السيبراني للشرق الأوسط 2024',
+        submissionDate: '15/01/2024',
+        taskType: 'document',
+        assignee: {
+            name: 'Ali Muhammed',
+            avatar: undefined,
+        },
+        fromUser: {
+            name: 'Security Department',
+            avatar: undefined,
+        },
+        workStatus: undefined,
+        isUrgent: true,
+        linkedTasksCount: 3,
+        attachmentsCount: 5,
+        flowStatus: 'مراجعة',
+        typeIcon: <TypeIcon Icon={CheckCircle} />,
+        documentData: {
+            tags: ['Pakistan', 'UAE', 'تقنية', 'دواء', 'Location', 'Top secret'],
+            categories: ['Security', 'Technology', 'Business'],
+            summary: '"شركة الأمن XYZ" هي شركة معروفة تقدم خدمات أمنية متميزة. نركز على توفير حلول أمنية عالية الجودة لعملائنا في مختلف أنحاء العالم. بفضل فريقنا من المتخصصين المدربين، نقدم خدمات متنوعة تشمل الاستشارات الأمنية وتقييم المخاطر وإدارة الأمن.',
+            content: 'تم جمع العمل على مدى قرون عديدة من قبل مؤلفين ومترجمين وباحثين مختلفين من غرب آسيا و جنوب آسيا و آسيا الوسطى و شمال أفريقيا. تعود جذور بعض الحكايات إلى الأدب العربي والسنسكريتي والفارسي القديم والعصور الوسطى وأدب بلاد ما بين النهرين.',
+            metadata: {
+                views: 1234,
+                downloads: 89,
+                shares: 45,
+                version: '2.1.0',
+            },
+            extraSections: [
+                {
+                    title: 'معلومات إضافية',
+                    fields: {
+                        'رقم المرجع': 'REF-2024-001',
+                        'التصنيف': 'سري للغاية',
+                        'تاريخ الإصدار': '15 يناير 2024',
+                        'تاريخ الانتهاء': '15 يناير 2025',
+                    },
+                },
+            ],
+        },
+    },
+    {
+        id: 'doc-002',
+        subject: 'تقرير الأداء الربع سنوي Q4 2023',
+        submissionDate: '10/01/2024',
+        taskType: 'document',
+        assignee: {
+            name: 'Fatima Ahmed',
+            avatar: undefined,
+        },
+        fromUser: {
+            name: 'Finance Department',
+            avatar: undefined,
+        },
+        workStatus: 'in_progress',
+        isUrgent: false,
+        linkedTasksCount: 2,
+        attachmentsCount: 8,
+        flowStatus: 'معتمد',
+        typeIcon: <TypeIcon Icon={Info} />,
+        documentData: {
+            tags: ['Finance', 'Q4', 'Performance', 'Annual'],
+            categories: ['Reports', 'Financial'],
+            summary: 'تقرير شامل عن أداء الشركة خلال الربع الرابع من عام 2023، يشمل التحليلات المالية والتوصيات الاستراتيجية.',
+            content: 'شهد الربع الرابع من عام 2023 نمواً ملحوظاً في جميع القطاعات الرئيسية. تم تحقيق الأهداف المالية المحددة وتجاوزها بنسبة 15%.',
+            metadata: {
+                views: 856,
+                downloads: 123,
+                shares: 67,
+                version: '1.0.0',
+            },
+        },
+    },
 ];
+

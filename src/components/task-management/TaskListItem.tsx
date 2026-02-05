@@ -13,6 +13,7 @@ export interface TaskItemData {
     id: string;
     subject: string; // Changed from 'title' to match Figma annotation "this is task subject"
     submissionDate: string; // Changed from 'date' to match Figma annotation
+    taskType?: 'task' | 'document'; // Type of task: regular task or document task
     assignee?: {
         name: string;
         avatar?: string;
@@ -28,6 +29,23 @@ export interface TaskItemData {
     flowStatus?: string; // Task flow status (e.g., "QA-مفتوح")
     ejsContent?: string; // EJS embeddings - admin can show anything
     typeIcon?: React.ReactNode; // Task type icon
+    // Document-specific fields (when taskType === 'document')
+    documentData?: {
+        tags?: string[];
+        categories?: string[];
+        summary?: string;
+        content?: string;
+        metadata?: {
+            views?: number;
+            downloads?: number;
+            shares?: number;
+            version?: string;
+        };
+        extraSections?: Array<{
+            title: string;
+            fields: Record<string, string>;
+        }>;
+    };
 }
 
 export interface TaskListItemProps extends TaskItemData {
@@ -97,8 +115,8 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
                 cursor: 'pointer',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 2,
-                p: 2,
+                gap: 1,
+                p: 1,
                 bgcolor: getBackgroundStyle(),
                 maxHeight: 156,
                 overflow: 'hidden',

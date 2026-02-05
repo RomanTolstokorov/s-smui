@@ -4,7 +4,8 @@ import { typography } from './typography';
 import { components } from './components';
 
 // Static constants that don't change between themes
-const staticSpacing = [0, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96];
+// Spacing: 8px base unit, so spacing(0.5) = 4px, spacing(1) = 8px, spacing(2) = 16px, etc.
+const staticSpacing = 8;
 const staticShape = { borderRadius: 3 };
 const staticBreakpoints = {
   values: {

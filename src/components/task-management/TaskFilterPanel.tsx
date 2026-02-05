@@ -176,7 +176,7 @@ export const TaskFilterPanel: React.FC<TaskFilterPanelProps> = ({
                             </InputAdornment>
                         ),
                     }}
-                    sx={{ mb: 2 }}
+                    sx={{ mb: 1 }}
                 />
 
                 {activeTab === 'search' && (
@@ -195,7 +195,7 @@ export const TaskFilterPanel: React.FC<TaskFilterPanelProps> = ({
                         </Box>
 
                         {/* Filter List - Dropdown Style Buttons */}
-                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                             {filteredDefinitions
                                 .filter(filter => {
                                     // Don't show filters that are linked children of other filters
@@ -239,7 +239,7 @@ export const TaskFilterPanel: React.FC<TaskFilterPanelProps> = ({
 
                                                 {/* Linked Child Filter */}
                                                 {showLinkedFilter && (
-                                                    <Box sx={{ ml: 3 }}>
+                                                    <Box sx={{ ml: 1 }}>
                                                         <AppFilterInput
                                                             name={linkedFilter.name}
                                                             valueType={linkedFilter.type}
@@ -288,7 +288,7 @@ export const TaskFilterPanel: React.FC<TaskFilterPanelProps> = ({
                         </Box>
 
                         {/* Save Filters Button */}
-                        <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
+                        <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
                             <Button
                                 variant="text"
                                 onClick={() => setSaveDialogOpen(true)}

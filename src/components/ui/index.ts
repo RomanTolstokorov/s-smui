@@ -3,4 +3,8 @@ export { default as Loading } from './Loading';
 export { default as EmptyState } from './EmptyState';
 export { SSingleSelect } from './SSingleSelect';
 export { SMultiSelect } from './SMultiSelect';
+export { LabelChip } from './LabelChip';
+export { TopBarTabs, TopBarTab } from './TopBarTabs';
 export type { OptionType } from './commonTypes';
+export type { LabelChipProps } from './LabelChip';
+export type { TopBarTabsProps, TopBarTabProps } from './TopBarTabs';

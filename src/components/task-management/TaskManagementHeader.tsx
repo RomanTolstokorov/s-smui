@@ -5,7 +5,7 @@ import {
     Button,
     ToggleButton,
     ToggleButtonGroup,
-    Chip,
+    Badge,
 } from '@mui/material';
 import {
     PlusIcon,
@@ -13,6 +13,7 @@ import {
     ListBulletsIcon,
     CaretDownIcon,
 } from '@phosphor-icons/react';
+import { TopBarTabs, TopBarTab } from '../ui';
 import { islandStyleNoBorder } from '../../theme';
 
 type ViewMode = 'list' | 'table';
@@ -60,76 +61,41 @@ export const TaskManagementHeader: React.FC<TaskManagementHeaderProps> = ({
                 </Typography>
 
                 {/* Filter Tabs */}
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Button
-                        variant="text"
-                        size="small"
-                        onClick={() => onTabChange('incoming')}
-                        endIcon={
-                            <Chip
-                                label="34/357"
-                                size="small"
+                <TopBarTabs
+                    value={activeTab}
+                    onChange={(_, newValue: TabValue) => onTabChange(newValue)}
+                >
+                    <TopBarTab
+                        label="Incoming"
+                        value="incoming"
+                        badge={
+                            <Badge
+                                badgeContent="34/357"
+                                color="error"
                                 sx={{
-                                    height: 20,
-                                    fontSize: '0.75rem',
-                                    fontWeight: 700,
-                                    '& .MuiChip-label': {
-                                        px: 0.5,
+                                    '& .MuiBadge-badge': {
+                                        position: 'static',
+                                        transform: 'none',
+                                        fontSize: '0.75rem',
+                                        fontWeight: 700,
+                                        lineHeight: '20px',
+                                        height: 20,
+                                        minWidth: 20,
+                                        px: 0.8125,
                                     },
                                 }}
                             />
                         }
-                        sx={{
-                            textTransform: 'none',
-                            px: 2,
-                            py: 1,
-                            borderRadius: 2,
-                            color: activeTab === 'incoming' ? 'primary.dark' : 'action.active',
-                            bgcolor: activeTab === 'incoming' ? 'primary.states.selected' : 'transparent',
-                            '&:hover': {
-                                bgcolor: activeTab === 'incoming' ? 'primary.states.selected' : 'action.hover',
-                            },
-                        }}
-                    >
-                        Incoming
-                    </Button>
-                    <Button
-                        variant="text"
-                        size="small"
-                        onClick={() => onTabChange('created-by-me')}
-                        sx={{
-                            textTransform: 'none',
-                            px: 2,
-                            py: 1,
-                            borderRadius: 2,
-                            color: activeTab === 'created-by-me' ? 'text.primary' : 'action.active',
-                            bgcolor: activeTab === 'created-by-me' ? 'primary.states.selected' : 'transparent',
-                            '&:hover': {
-                                bgcolor: activeTab === 'created-by-me' ? 'primary.states.selected' : 'action.hover',
-                            },
-                        }}
-                    >
-                        Created by me
-                    </Button>
-                    <Button
-                        variant="text"
-                        size="small"
-                        onClick={() => onTabChange('all')}
-                        sx={{
-                            textTransform: 'none',
-                            px: 2,
-                            py: 1,
-                            borderRadius: 2,
-                            color: activeTab === 'all' ? 'text.primary' : 'action.active',
-                            bgcolor: activeTab === 'all' ? 'primary.states.selected' : 'transparent',
-                            '&:hover': {
-                                bgcolor: activeTab === 'all' ? 'primary.states.selected' : 'action.hover',
-                            },
-                        }}
-                    >
-                        All
-                    </Button>
-                </Box>
+                    />
+                    <TopBarTab
+                        label="Created by me"
+                        value="created-by-me"
+                    />
+                    <TopBarTab
+                        label="All"
+                        value="all"
+                    />
+                </TopBarTabs>
             </Box>
 
 
