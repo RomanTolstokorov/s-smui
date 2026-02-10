@@ -28,10 +28,22 @@ declare module '@mui/material/styles' {
   }
 }
 
-// Augment IconButton to support our custom xsmall size
+// Augment IconButton to support our custom xsmall size and shape property
 declare module '@mui/material/IconButton' {
   interface IconButtonPropsSizeOverrides {
     xsmall: true;
+  }
+
+  interface IconButtonPropsVariantOverrides {
+    // Allow default variant
+  }
+
+  interface IconButtonOwnProps {
+    /**
+     * The shape of the button.
+     * @default 'rectangle'
+     */
+    shape?: 'circle' | 'rectangle';
   }
 }
 

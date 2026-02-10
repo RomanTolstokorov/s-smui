@@ -49,7 +49,6 @@ export const TaskManagementApp: React.FC = () => {
             documentTypeIcon: selectedTask.typeIcon,
             summary: selectedTask.documentData?.summary,
             content: selectedTask.documentData?.content,
-            metadata: selectedTask.documentData?.metadata,
             extraSections: selectedTask.documentData?.extraSections,
         };
     }, [selectedTask]);

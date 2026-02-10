@@ -32,12 +32,6 @@ export interface DocumentData {
     summary?: string;
     content?: string;
     documentTypeIcon?: React.ReactNode;
-    metadata?: {
-        views?: number;
-        downloads?: number;
-        shares?: number;
-        version?: string;
-    };
     extraSections?: Array<{
         title: string;
         fields: Record<string, string>;

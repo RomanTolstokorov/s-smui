@@ -241,7 +241,99 @@ export const PlaygroundApp: React.FC = () => {
                                 </Box>
                             </Box>
 
+                            {/* Icon Button Shapes */}
+                            <Typography variant="h6" gutterBottom>Icon Button Shapes</Typography>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, mb: 3 }}>
+                                {/* Rectangle Shapes */}
+                                <Box>
+                                    <Typography variant="subtitle2" gutterBottom fontWeight={600}>Rectangle Shape</Typography>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'center' }}>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="large" shape="rectangle"><Star /></IconButton>
+                                            <Typography variant="caption">Large Default</Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="medium" shape="rectangle"><Star /></IconButton>
+                                            <Typography variant="caption">Medium Default</Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="small" shape="rectangle"><Star /></IconButton>
+                                            <Typography variant="caption">Small Default</Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="xsmall" shape="rectangle"><Star /></IconButton>
+                                            <Typography variant="caption">XSmall Default</Typography>
+                                        </Box>
+                                        <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="large" shape="rectangle" color="primary"><Star /></IconButton>
+                                            <Typography variant="caption">Large Primary</Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="medium" shape="rectangle" color="primary"><Star /></IconButton>
+                                            <Typography variant="caption">Medium Primary</Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="small" shape="rectangle" color="primary"><Star /></IconButton>
+                                            <Typography variant="caption">Small Primary</Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="xsmall" shape="rectangle" color="primary"><Star /></IconButton>
+                                            <Typography variant="caption">XSmall Primary</Typography>
+                                        </Box>
+                                        <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="medium" shape="rectangle" color="error"><Delete /></IconButton>
+                                            <Typography variant="caption">Error</Typography>
+                                        </Box>
+                                    </Box>
+                                </Box>
 
+                                {/* Circle Shapes */}
+                                <Box>
+                                    <Typography variant="subtitle2" gutterBottom fontWeight={600}>Circle Shape</Typography>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'center' }}>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="large" shape="circle"><Star /></IconButton>
+                                            <Typography variant="caption">Large Default</Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="medium" shape="circle"><Star /></IconButton>
+                                            <Typography variant="caption">Medium Default</Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="small" shape="circle"><Star /></IconButton>
+                                            <Typography variant="caption">Small Default</Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="xsmall" shape="circle"><Star /></IconButton>
+                                            <Typography variant="caption">XSmall Default</Typography>
+                                        </Box>
+                                        <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="large" shape="circle" color="primary"><Star /></IconButton>
+                                            <Typography variant="caption">Large Primary</Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="medium" shape="circle" color="primary"><Star /></IconButton>
+                                            <Typography variant="caption">Medium Primary</Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="small" shape="circle" color="primary"><Star /></IconButton>
+                                            <Typography variant="caption">Small Primary</Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="xsmall" shape="circle" color="primary"><Star /></IconButton>
+                                            <Typography variant="caption">XSmall Primary</Typography>
+                                        </Box>
+                                        <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                            <IconButton size="medium" shape="circle" color="error"><Delete /></IconButton>
+                                            <Typography variant="caption">Error</Typography>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                            </Box>
 
                             {/* Disabled States */}
                             <Typography variant="h6" gutterBottom>Disabled States</Typography>
