@@ -311,7 +311,7 @@ export const PlaygroundApp: React.FC = () => {
                                         </Box>
                                         <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
                                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
-                                            <IconButton size="large" shape="circle" color="primary"><Star /></IconButton>
+                                            <IconButton size="large" shape="circle" color="secondary"><Star /></IconButton>
                                             <Typography variant="caption">Large Primary</Typography>
                                         </Box>
                                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
@@ -861,6 +861,63 @@ export const PlaygroundApp: React.FC = () => {
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
+                </ComponentSection>
+
+                {/* Typography */}
+                <ComponentSection title="Typography">
+                    {(() => {
+                        const variants: Array<{
+                            variant: React.ComponentProps<typeof Typography>['variant'];
+                            label: string;
+                            sample: string;
+                            meta: string;
+                        }> = [
+                            { variant: 'h1', label: 'h1', sample: 'Heading 1', meta: 'Alexandria · 96px · 300 · −0.0156em' },
+                            { variant: 'h2', label: 'h2', sample: 'Heading 2', meta: 'Alexandria · 60px · 300 · −0.0083em' },
+                            { variant: 'h3', label: 'h3', sample: 'Heading 3', meta: 'Alexandria · 48px · 400 · 0em' },
+                            { variant: 'h4', label: 'h4', sample: 'Heading 4', meta: 'Alexandria · 34px · 600 · 0.0074em' },
+                            { variant: 'h5', label: 'h5', sample: 'Heading 5', meta: 'Alexandria · 24px · 700 · 0em' },
+                            { variant: 'h6', label: 'h6', sample: 'Heading 6', meta: 'Alexandria · 20px · 500 · 0.0075em' },
+                            { variant: 'subtitle1', label: 'subtitle1', sample: 'Subtitle 1 — section heading', meta: 'Noto Kufi Arabic · 16px · 600 · 0.0094em' },
+                            { variant: 'subtitle2', label: 'subtitle2', sample: 'Subtitle 2 — section heading', meta: 'Noto Kufi Arabic · 14px · 600 · 0.0071em' },
+                            { variant: 'body1', label: 'body1', sample: 'Body 1 — The quick brown fox jumps over the lazy dog.', meta: 'Noto Kufi Arabic · 16px · 400 · 0.0063em' },
+                            { variant: 'body2', label: 'body2', sample: 'Body 2 — The quick brown fox jumps over the lazy dog.', meta: 'Noto Kufi Arabic · 14px · 400 · 0.0071em' },
+                            { variant: 'button', label: 'button', sample: 'Button Label', meta: 'Noto Kufi Arabic · 14px · 500 · 0em' },
+                            { variant: 'caption', label: 'caption', sample: 'Caption text — helper or metadata', meta: 'Noto Kufi Arabic · 12px · 400 · 0.0083em' },
+                            { variant: 'overline', label: 'overline', sample: 'Overline label', meta: 'Noto Kufi Arabic · 12px · 400 · 0.0833em · uppercase' },
+                        ];
+                        return (
+                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                {variants.map(({ variant, label, sample, meta }, i) => (
+                                    <Box
+                                        key={variant}
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'baseline',
+                                            gap: 2,
+                                            py: 1.5,
+                                            borderBottom: i < variants.length - 1 ? '1px solid' : 'none',
+                                            borderColor: 'divider',
+                                        }}
+                                    >
+                                        <Box sx={{ width: 90, flexShrink: 0 }}>
+                                            <Typography variant="caption" color="text.disabled" sx={{ fontFamily: 'monospace' }}>
+                                                {label}
+                                            </Typography>
+                                        </Box>
+                                        <Box sx={{ flex: 1, minWidth: 0 }}>
+                                            <Typography variant={variant}>{sample}</Typography>
+                                        </Box>
+                                        <Box sx={{ flexShrink: 0, textAlign: 'right' }}>
+                                            <Typography variant="caption" color="text.disabled">
+                                                {meta}
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                ))}
+                            </Box>
+                        );
+                    })()}
                 </ComponentSection>
 
                 {/* File Attachments */}
